@@ -1,0 +1,17 @@
+vendor/
+.idea/
+.env
+config/env.php
+config/env.stage.php
+config/env.production.php
+config/settings.dev.php
+config/settings.stage*php
+config/settings.production*php
+log/*.log
+public/.env
+public/.htaccess.stage
+public/.htaccess.production
+.pem
+.DS_Store
+.cursorrules
+.airole
