@@ -65,6 +65,7 @@ $router->group([AuthMiddleware::class], function ($router) {
     // Auth routes
     $router->post('/api/auth/logout', [AuthController::class, 'logout']);
     $router->get('/api/auth/me', [AuthController::class, 'me']);
+    $router->put('/api/auth/change-password', [AuthController::class, 'changePassword']);
 
     // Stats/Dashboard (both roles)
     $router->get('/api/stats/dashboard', [StatsController::class, 'dashboard']);

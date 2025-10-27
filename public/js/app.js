@@ -131,6 +131,14 @@ const API = {
         });
     },
 
+    // Password
+    changePassword(currentPassword, newPassword) {
+        return this.request('/auth/change-password', {
+            method: 'PUT',
+            body: { current_password: currentPassword, new_password: newPassword },
+        });
+    },
+
     // Punishments
     getMyPunishments(householdId) {
         return this.request('/my-punishments', {
@@ -191,6 +199,16 @@ const UI = {
     hideError(elementId) {
         const errorEl = document.getElementById(elementId);
         errorEl.classList.remove('show');
+    },
+
+    showModal(modalId) {
+        document.getElementById('modal-overlay').classList.remove('hidden');
+        document.getElementById(modalId).classList.remove('hidden');
+    },
+
+    closeModal() {
+        document.getElementById('modal-overlay').classList.add('hidden');
+        document.querySelectorAll('.modal').forEach(modal => modal.classList.add('hidden'));
     },
 
     renderDashboard(data) {
@@ -423,6 +441,75 @@ const App = {
             }
         });
 
+        // Change password button
+        document.getElementById('btn-change-password').addEventListener('click', () => {
+            UI.showModal('modal-change-password');
+        });
+
+        // Create household button
+        const createHouseholdBtn = document.getElementById('btn-create-household');
+        if (createHouseholdBtn) {
+            createHouseholdBtn.addEventListener('click', () => {
+                UI.showModal('modal-create-household');
+            });
+        }
+
+        // Modal overlay click to close
+        document.getElementById('modal-overlay').addEventListener('click', (e) => {
+            if (e.target.id === 'modal-overlay') {
+                this.closeModal();
+            }
+        });
+
+        // Create household form
+        document.getElementById('form-create-household').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            UI.hideError('create-household-error');
+
+            const formData = new FormData(e.target);
+            const name = formData.get('name');
+            const description = formData.get('description');
+
+            try {
+                const response = await API.createHousehold(name, description);
+                if (response.success) {
+                    UI.closeModal();
+                    e.target.reset();
+                    await this.loadHouseholds();
+                    alert('Domácnost vytvořena!');
+                }
+            } catch (error) {
+                UI.showError('create-household-error', error.message);
+            }
+        });
+
+        // Change password form
+        document.getElementById('form-change-password').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            UI.hideError('change-password-error');
+
+            const formData = new FormData(e.target);
+            const currentPassword = formData.get('current_password');
+            const newPassword = formData.get('new_password');
+            const confirmPassword = formData.get('confirm_password');
+
+            if (newPassword !== confirmPassword) {
+                UI.showError('change-password-error', 'Hesla se neshodují');
+                return;
+            }
+
+            try {
+                const response = await API.changePassword(currentPassword, newPassword);
+                if (response.success) {
+                    UI.closeModal();
+                    e.target.reset();
+                    alert('Heslo bylo změněno!');
+                }
+            } catch (error) {
+                UI.showError('change-password-error', error.message);
+            }
+        });
+
         // Navigation
         document.querySelectorAll('[data-view]').forEach(link => {
             link.addEventListener('click', (e) => {
@@ -503,6 +590,10 @@ const App = {
         } catch (error) {
             alert('Chyba: ' + error.message);
         }
+    },
+
+    closeModal() {
+        UI.closeModal();
     },
 };
 

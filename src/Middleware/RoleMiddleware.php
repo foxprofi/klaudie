@@ -33,35 +33,3 @@ class RoleMiddleware implements MiddlewareInterface
         return true;
     }
 }
-
-/**
- * Specialized middleware: Domina only
- */
-class DominaOnlyMiddleware implements MiddlewareInterface
-{
-    public function handle(): bool
-    {
-        if (!Auth::isDomina()) {
-            echo Response::forbidden('Domina access required');
-            return false;
-        }
-
-        return true;
-    }
-}
-
-/**
- * Specialized middleware: Servant only
- */
-class ServantOnlyMiddleware implements MiddlewareInterface
-{
-    public function handle(): bool
-    {
-        if (!Auth::isServant()) {
-            echo Response::forbidden('Servant access required');
-            return false;
-        }
-
-        return true;
-    }
-}

@@ -76,6 +76,7 @@
                 <div class="nav-user">
                     <span id="user-name"></span>
                     <span id="user-role" class="badge"></span>
+                    <button id="btn-change-password" class="btn btn-small">Změnit heslo</button>
                     <button id="logout-btn" class="btn btn-small">Odhlásit</button>
                 </div>
             </nav>
@@ -129,7 +130,55 @@
     </div>
 
     <!-- Modals -->
-    <div id="modal-overlay" class="modal-overlay hidden"></div>
+    <div id="modal-overlay" class="modal-overlay hidden">
+        <!-- Create Household Modal -->
+        <div id="modal-create-household" class="modal hidden">
+            <div class="modal-header">
+                <h3 class="modal-title">Nová domácnost</h3>
+            </div>
+            <form id="form-create-household">
+                <div class="form-group">
+                    <label>Název</label>
+                    <input type="text" name="name" required minlength="2">
+                </div>
+                <div class="form-group">
+                    <label>Popis (volitelné)</label>
+                    <textarea name="description" rows="3"></textarea>
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <button type="submit" class="btn btn-primary">Vytvořit</button>
+                    <button type="button" class="btn" onclick="App.closeModal()">Zrušit</button>
+                </div>
+                <div class="error-message" id="create-household-error"></div>
+            </form>
+        </div>
+
+        <!-- Change Password Modal -->
+        <div id="modal-change-password" class="modal hidden">
+            <div class="modal-header">
+                <h3 class="modal-title">Změna hesla</h3>
+            </div>
+            <form id="form-change-password">
+                <div class="form-group">
+                    <label>Současné heslo</label>
+                    <input type="password" name="current_password" required>
+                </div>
+                <div class="form-group">
+                    <label>Nové heslo</label>
+                    <input type="password" name="new_password" required minlength="8">
+                </div>
+                <div class="form-group">
+                    <label>Potvrzení nového hesla</label>
+                    <input type="password" name="confirm_password" required minlength="8">
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <button type="submit" class="btn btn-primary">Změnit heslo</button>
+                    <button type="button" class="btn" onclick="App.closeModal()">Zrušit</button>
+                </div>
+                <div class="error-message" id="change-password-error"></div>
+            </form>
+        </div>
+    </div>
 
     <script src="/js/app.js"></script>
 </body>

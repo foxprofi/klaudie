@@ -4,11 +4,11 @@
  */
 
 return [
-    'host' => getenv('DB_HOST') ?: 'localhost',
-    'port' => getenv('DB_PORT') ?: 3306,
-    'database' => getenv('DB_NAME') ?: 'virtual_domina',
-    'username' => getenv('DB_USER') ?: 'root',
-    'password' => getenv('DB_PASS') ?: '',
+    'host' => $_ENV['DB_HOST'] ?? getenv('DB_HOST') ?: 'localhost',
+    'port' => $_ENV['DB_PORT'] ?? getenv('DB_PORT') ?: 3306,
+    'database' => $_ENV['DB_NAME'] ?? getenv('DB_NAME') ?: 'virtual_domina',
+    'username' => $_ENV['DB_USER'] ?? getenv('DB_USER') ?: 'root',
+    'password' => $_ENV['DB_PASS'] ?? getenv('DB_PASS') ?: '',
     'charset' => 'utf8mb4',
     'collation' => 'utf8mb4_unicode_ci',
     'options' => [

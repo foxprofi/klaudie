@@ -117,4 +117,52 @@ class AuthController
 
         return Response::success(Auth::user());
     }
+
+    /**
+     * PUT /api/auth/change-password
+     */
+    public function changePassword(): string
+    {
+        if (!Auth::check()) {
+            return Response::unauthorized();
+        }
+
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        // Validation
+        $errors = [];
+        if (!isset($data['current_password'])) {
+            $errors['current_password'] = 'Current password is required';
+        }
+        if (!isset($data['new_password']) || strlen($data['new_password']) < 8) {
+            $errors['new_password'] = 'New password must be at least 8 characters';
+        }
+
+        if (!empty($errors)) {
+            return Response::validationError($errors);
+        }
+
+        // Verify current password
+        $userModel = new \Klaudie\Models\User();
+        $user = $userModel->find(Auth::id());
+
+        if (!password_verify($data['current_password'], $user['password_hash'])) {
+            return Response::error('Current password is incorrect', 401);
+        }
+
+        // Hash new password
+        $config = require __DIR__ . '/../../config/config.php';
+        $newPasswordHash = password_hash(
+            $data['new_password'],
+            $config['security']['password_algorithm'],
+            $config['security']['password_options']
+        );
+
+        // Update password
+        $userModel->update(Auth::id(), ['password_hash' => $newPasswordHash]);
+
+        ActivityLogger::log(Auth::id(), null, 'user.password_change', []);
+
+        return Response::success(null, 'Password changed successfully');
+    }
 }

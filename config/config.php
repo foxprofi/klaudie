@@ -7,16 +7,16 @@ return [
     'app' => [
         'name' => 'Virtual Domina',
         'version' => '1.0.0',
-        'environment' => getenv('APP_ENV') ?: 'development',
-        'debug' => getenv('APP_DEBUG') === 'true',
+        'environment' => $_ENV['APP_ENV'] ?? getenv('APP_ENV') ?: 'development',
+        'debug' => ($_ENV['APP_DEBUG'] ?? getenv('APP_DEBUG')) === 'true',
         'timezone' => 'Europe/Prague',
-        'url' => getenv('APP_URL') ?: 'http://localhost',
+        'url' => $_ENV['APP_URL'] ?? getenv('APP_URL') ?: 'http://localhost',
     ],
 
     'session' => [
         'name' => 'DOMINA_SESSION',
         'lifetime' => 7200, // 2 hours
-        'secure' => getenv('APP_ENV') === 'production',
+        'secure' => ($_ENV['APP_ENV'] ?? getenv('APP_ENV')) === 'production',
         'httponly' => true,
         'samesite' => 'Lax',
     ],
