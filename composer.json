@@ -1,0 +1,19 @@
+{
+    "name": "klaudie/virtual-domina",
+    "description": "Multi-tenant virtual dominance application",
+    "type": "project",
+    "require": {
+        "php": ">=8.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Klaudie\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Klaudie",
+            "email": "klaudie@foxprofi.cz"
+        }
+    ]
+}
