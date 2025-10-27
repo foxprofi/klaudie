@@ -1,0 +1,23 @@
+services:
+  frontend:
+    build: dev
+    ports:
+      - 39111:80
+    environment:
+      - APPLICATION_ENV=development
+      - TZ=UTC
+    volumes:
+      - type: bind
+        source: ../
+        target: /var/www/project
+    extra_hosts:
+      host.docker.internal: host-gateway
+    container_name: klaudie
+    networks:
+      local:
+
+networks:
+  local:
+    ipam:
+      config:
+        - subnet: 10.51.1.0/24

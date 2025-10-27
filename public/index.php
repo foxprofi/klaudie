@@ -5,6 +5,7 @@
  * Application entry point
  */
 
+require_once __DIR__ . '/../bootstrap.php';
 require_once __DIR__ . '/../autoload.php';
 
 use Klaudie\Router;
@@ -20,7 +21,7 @@ use Klaudie\Response;
 
 // Error handling
 error_reporting(E_ALL);
-ini_set('display_errors', 0);
+ini_set('display_errors', 1);
 
 set_error_handler(function ($severity, $message, $file, $line) {
     throw new ErrorException($message, 0, $severity, $file, $line);
@@ -28,7 +29,18 @@ set_error_handler(function ($severity, $message, $file, $line) {
 
 set_exception_handler(function ($exception) {
     error_log($exception->getMessage());
-    echo Response::serverError('An unexpected error occurred');
+    // Temporarily show full error for debugging
+    if (getenv('APP_DEBUG') === 'true') {
+        echo Response::json([
+            'success' => false,
+            'error' => $exception->getMessage(),
+            'file' => $exception->getFile(),
+            'line' => $exception->getLine(),
+            'trace' => $exception->getTraceAsString(),
+        ], 500);
+    } else {
+        echo Response::serverError('An unexpected error occurred');
+    }
 });
 
 // CORS headers for API
