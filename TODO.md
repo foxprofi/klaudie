@@ -176,9 +176,24 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
   - UI: Servant verification interface (může potvrdit za dominu jako svědek)
   - Validace: servant nemůže přepsat checklist vyplněný dominou
 
+- [ ] **#051** - Recurring Tasks (opakující se úkoly)
+  - Databázové sloupce v `tasks`: is_recurring, recurrence_pattern, recurrence_interval, recurrence_day_of_week, recurrence_day_of_month, recurring_task_id, recurrence_end_date, recurrence_active
+  - Foreign key: recurring_task_id → tasks(id) CASCADE
+  - Periodicita: neopakovat, denně, každých X dní (2-30), týdně, měsíčně
+  - Parent task = šablona, child tasks = auto-generované instance
+  - Cron job: generování instancí (00:01 denně)
+  - API: POST /api/tasks (s periodicitu)
+  - API: PUT /api/tasks/{id}/recurring/deactivate|activate
+  - API: PUT /api/tasks/{id}/recurring (úprava periodicitu)
+  - API: DELETE /api/tasks/{id} (smaže parent + pending instances)
+  - UI: Periodicita při vytváření úkolu (radio buttons)
+  - UI: Správa recurring tasks (seznam, vypnout/zapnout/smazat)
+  - UI: Servant dashboard zobrazí 🔁 ikonu pro recurring instance
+  - Validace: interval 2-30, end_date max 1 rok, pouze domina vytváří
+
 ### Původní gamifikace (nahrazeno Progression System)
-- [x] **#014** - DEPRECATED — nahrazeno #036-#050
-- [x] **#015** - DEPRECATED — nahrazeno #036-#050
+- [x] **#014** - DEPRECATED — nahrazeno #036-#051
+- [x] **#015** - DEPRECATED — nahrazeno #036-#051
 
 ---
 
@@ -232,23 +247,22 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
 - **#030** - Video call integrace mezi dominou a servantem?
 - **#031** - AI asistent pro návrhy úkolů?
 - **#032** - Kalendář s naplánovanými úkoly?
-- **#033** - Recurring tasks (opakující se úkoly)?
 
 ---
 
 ## 📊 Statistiky
 
-**Aktivní úkoly:** 42
+**Aktivní úkoly:** 43
 **High priority:** 4
-**Medium priority:** 20 (15 Progression System úkolů včetně Fitness a Feminine Power)
+**Medium priority:** 21 (16 Progression System úkolů včetně Fitness, Feminine Power a Recurring)
 **Low priority:** 6
 **Tech debt:** 5
-**Nápady:** 5
+**Nápady:** 4 (Recurring tasks implementován jako #051)
 **Deprecated:** 2
 **Hotovo (v CHANGELOG.md):** 7
 
 ---
 
-**Další volné číslo:** #051
+**Další volné číslo:** #052
 
 **Poznámka:** Po dokončení úkolu přesuň záznam do `CHANGELOG.md`.
