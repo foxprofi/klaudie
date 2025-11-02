@@ -300,6 +300,36 @@ const UI = {
                     </div>
                     <div class="card-body">
                         <p>${household.description || 'Bez popisu'}</p>
+
+                        ${isDomina && household.servants && household.servants.length > 0 ? `
+                            <div class="servants-section mt-3">
+                                <h4 style="margin-bottom: 1rem; font-size: 1.1rem; color: #c41e3a;">Servanti v domácnosti:</h4>
+                                <div class="servants-list">
+                                    ${household.servants.map(servant => `
+                                        <div class="servant-item" style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; margin-bottom: 0.5rem; background: #1a1a1a; border: 1px solid #333; border-radius: 4px;">
+                                            <div>
+                                                <div style="font-weight: bold; color: #fff;">${servant.display_name}</div>
+                                                <div style="font-size: 0.9rem; color: #999;">${servant.email}</div>
+                                                <div style="font-size: 0.85rem; color: #666; margin-top: 0.25rem;">
+                                                    Připojen: ${new Date(servant.joined_at).toLocaleDateString('cs-CZ')}
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <span class="badge badge-${servant.status === 'active' ? 'success' : 'secondary'}" style="padding: 0.25rem 0.75rem;">
+                                                    ${servant.status === 'active' ? 'Aktivní' : 'Neaktivní'}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                        ${isDomina && (!household.servants || household.servants.length === 0) ? `
+                            <div class="servants-section mt-3">
+                                <p style="color: #999; font-style: italic;">Zatím žádní servanti v této domácnosti</p>
+                            </div>
+                        ` : ''}
+
                         ${isDomina ? `
                             <div class="household-key-section mt-3">
                                 <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Klíč pro pozvání servantů:</label>
@@ -613,8 +643,20 @@ const App = {
         try {
             const response = await API.getHouseholds();
             if (response.success) {
-                State.households = response.data;
-                UI.renderHouseholds(response.data);
+                // Load detailed data for each household (including servants)
+                const householdsWithDetails = await Promise.all(
+                    response.data.map(async (household) => {
+                        try {
+                            const detailResponse = await API.getHousehold(household.id);
+                            return detailResponse.success ? detailResponse.data : household;
+                        } catch (error) {
+                            console.error(`Failed to load household ${household.id}:`, error);
+                            return household;
+                        }
+                    })
+                );
+                State.households = householdsWithDetails;
+                UI.renderHouseholds(householdsWithDetails);
             }
         } catch (error) {
             console.error('Failed to load households:', error);

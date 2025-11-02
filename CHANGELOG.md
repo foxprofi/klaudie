@@ -35,6 +35,12 @@ Historie implementovaných funkcionalit a změn v projektu.
   - Tlačítko pro regeneraci klíče s potvrzovacím dialogem
   - Metoda `regenerateKey()` v Household modelu
 
+- **#034** - Seznam servantů v domácnosti pro dominu
+  - Frontend načítání detailů domácností včetně seznamu servantů
+  - Zobrazení servantů s informacemi: jméno, email, datum připojení, status
+  - Vizuální rozlišení aktivních a neaktivních servantů
+  - Zpráva při prázdném seznamu servantů
+
 ### Changed
 - **#022** - Opraveny PHP 8.4 deprecated warnings v Model.php
   - Nullable type hint pro `$limit` parametr v metodě `findAll()`
