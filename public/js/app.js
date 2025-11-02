@@ -98,6 +98,12 @@ const API = {
         return this.request(`/households/${id}`);
     },
 
+    regenerateHouseholdKey(id) {
+        return this.request(`/households/${id}/regenerate-key`, {
+            method: 'PUT',
+        });
+    },
+
     // Tasks
     getMyAssignments() {
         return this.request('/assignments/my');
@@ -283,6 +289,8 @@ const UI = {
             return;
         }
 
+        const isDomina = State.user && State.user.role === 'domina';
+
         let html = '';
         households.forEach(household => {
             html += `
@@ -292,6 +300,27 @@ const UI = {
                     </div>
                     <div class="card-body">
                         <p>${household.description || 'Bez popisu'}</p>
+                        ${isDomina ? `
+                            <div class="household-key-section mt-3">
+                                <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Klíč pro pozvání servantů:</label>
+                                <div style="display: flex; gap: 0.5rem; align-items: center;">
+                                    <input type="text"
+                                           id="key-${household.id}"
+                                           value="${household.household_key}"
+                                           readonly
+                                           style="flex: 1; padding: 0.5rem; background: #1a1a1a; border: 1px solid #c41e3a; border-radius: 4px; color: #fff; font-family: monospace;">
+                                    <button class="btn btn-small" onclick="App.copyHouseholdKey('${household.household_key}')">
+                                        📋 Kopírovat
+                                    </button>
+                                    <button class="btn btn-small btn-danger" onclick="App.regenerateHouseholdKey(${household.id})">
+                                        🔄 Regenerovat
+                                    </button>
+                                </div>
+                                <small style="display: block; margin-top: 0.5rem; color: #999;">
+                                    Tento klíč použijí servanti při registraci pro připojení k této domácnosti.
+                                </small>
+                            </div>
+                        ` : ''}
                     </div>
                 </div>
             `;
@@ -619,6 +648,41 @@ const App = {
             }
         } catch (error) {
             alert('Chyba: ' + error.message);
+        }
+    },
+
+    copyHouseholdKey(key) {
+        // Copy to clipboard
+        navigator.clipboard.writeText(key).then(() => {
+            alert('Klíč byl zkopírován do schránky!');
+        }).catch((error) => {
+            // Fallback for older browsers
+            const textArea = document.createElement('textarea');
+            textArea.value = key;
+            textArea.style.position = 'fixed';
+            textArea.style.opacity = '0';
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            alert('Klíč byl zkopírován do schránky!');
+        });
+    },
+
+    async regenerateHouseholdKey(householdId) {
+        if (!confirm('Opravdu chcete regenerovat klíč? Starý klíč přestane fungovat a servanti se s ním nebudou moci registrovat.')) {
+            return;
+        }
+
+        try {
+            const response = await API.regenerateHouseholdKey(householdId);
+            if (response.success) {
+                alert('Klíč byl úspěšně regenerován!');
+                // Reload households to show new key
+                await this.loadHouseholds();
+            }
+        } catch (error) {
+            alert('Chyba při regeneraci klíče: ' + error.message);
         }
     },
 

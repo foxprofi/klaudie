@@ -193,4 +193,25 @@ class HouseholdController
 
         return Response::success(null, 'Servant removed from household');
     }
+
+    /**
+     * PUT /api/households/{id}/regenerate-key
+     * Regenerate household key (Domina only, invalidates old key)
+     */
+    public function regenerateKey(int $id): string
+    {
+        $householdModel = new Household();
+
+        if (!$householdModel->isOwner($id, Auth::id())) {
+            return Response::forbidden();
+        }
+
+        $newKey = $householdModel->regenerateKey($id);
+
+        ActivityLogger::log(Auth::id(), $id, 'household.regenerate_key', []);
+
+        return Response::success([
+            'household_key' => $newKey,
+        ], 'Household key regenerated');
+    }
 }

@@ -11,11 +11,6 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
 ## 🔥 Priority (High)
 
 ### Domácnosti
-- [ ] **#005** - Zobrazení household klíče pro dominu
-  - V detailu domácnosti zobrazit UUID klíč
-  - Tlačítko pro kopírování klíče do schránky
-  - Možnost regenerovat klíč (zneplatní starý)
-
 - [ ] **#006** - Dashboard pro servanta
   - Zobrazit informace o domácnosti, do které patří
   - Zobrazit jméno dominy
@@ -129,13 +124,13 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
 
 ## 📊 Statistiky
 
-**Aktivní úkoly:** 29
-**High priority:** 5
+**Aktivní úkoly:** 28
+**High priority:** 4
 **Medium priority:** 6
 **Low priority:** 6
 **Tech debt:** 5
 **Nápady:** 5
-**Hotovo (v CHANGELOG.md):** 4
+**Hotovo (v CHANGELOG.md):** 5
 
 ---
 

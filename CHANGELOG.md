@@ -28,6 +28,13 @@ Historie implementovaných funkcionalit a změn v projektu.
   - Automatické generování UUID při vytvoření domácnosti
   - Metody `findByKey()` a `generateUUID()` v Household modelu
 
+- **#005** - Zobrazení household klíče pro dominu
+  - Backend endpoint `PUT /api/households/{id}/regenerate-key` pro regeneraci klíče
+  - Frontend zobrazení UUID klíče v detailu domácnosti (pouze pro dominu)
+  - Tlačítko pro kopírování klíče do schránky pomocí Clipboard API
+  - Tlačítko pro regeneraci klíče s potvrzovacím dialogem
+  - Metoda `regenerateKey()` v Household modelu
+
 ### Changed
 - **#022** - Opraveny PHP 8.4 deprecated warnings v Model.php
   - Nullable type hint pro `$limit` parametr v metodě `findAll()`

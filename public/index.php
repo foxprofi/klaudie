@@ -86,6 +86,7 @@ $router->group([AuthMiddleware::class], function ($router) {
         $router->post('/api/households', [HouseholdController::class, 'create']);
         $router->put('/api/households/{id}', [HouseholdController::class, 'update']);
         $router->delete('/api/households/{id}', [HouseholdController::class, 'delete']);
+        $router->put('/api/households/{id}/regenerate-key', [HouseholdController::class, 'regenerateKey']);
         $router->post('/api/households/{id}/servants', [HouseholdController::class, 'addServant']);
         $router->delete('/api/households/{id}/servants/{servantId}', [HouseholdController::class, 'removeServant']);
 

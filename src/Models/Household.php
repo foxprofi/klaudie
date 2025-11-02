@@ -54,6 +54,16 @@ class Household extends Model
     }
 
     /**
+     * Regenerate household key (invalidates old key)
+     */
+    public function regenerateKey(int $householdId): string
+    {
+        $newKey = $this->generateUUID();
+        $this->update($householdId, ['household_key' => $newKey]);
+        return $newKey;
+    }
+
+    /**
      * Add servant to household
      */
     public function addServant(int $householdId, int $servantId, string $notes = null): int
