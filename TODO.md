@@ -191,6 +191,23 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
   - UI: Servant dashboard zobrazí 🔁 ikonu pro recurring instance
   - Validace: interval 2-30, end_date max 1 rok, pouze domina vytváří
 
+- [ ] **#052** - Automatic Punishment System (automatické tresty)
+  - Tabulka `punishment_library` (100 předpřipravených trestů)
+  - Kategorie: physical (20), mental (20), restrictive (20), creative (20), universal (20)
+  - Automatické přiřazení 2 trestů při každé penalizaci (odečtení bodů)
+  - Trest 1: Physical discipline (impact play) — vždy, podle BDSM intensity
+  - Trest 2: Unpleasant punishment — z kategorií MIMO preference (hard limits nebo non-interests)
+  - Universal punishments jako fallback (pokud vše v preferencích)
+  - Deadline: 48 hodin (2 dny), 24 hodin pro nerespekt
+  - API: GET /api/punishment-library (seznam trestů)
+  - API: POST /api/punishment-library (domina vytvoří vlastní)
+  - API: GET /api/punishments (servant seznam přiřazených)
+  - API: PUT /api/punishments/{id}/complete (servant oznámí dokončení)
+  - API: PUT /api/punishments/{id}/verify (domina verifikuje)
+  - UI: Servant dashboard zobrazí přiřazené tresty s instrukcemi a safety notes
+  - UI: Domina dashboard pro verifikaci trestů
+  - Seed data: 100 trestů do databáze
+
 ### Původní gamifikace (nahrazeno Progression System)
 - [x] **#014** - DEPRECATED — nahrazeno #036-#051
 - [x] **#015** - DEPRECATED — nahrazeno #036-#051
@@ -252,17 +269,17 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
 
 ## 📊 Statistiky
 
-**Aktivní úkoly:** 43
+**Aktivní úkoly:** 44
 **High priority:** 4
-**Medium priority:** 21 (16 Progression System úkolů včetně Fitness, Feminine Power a Recurring)
+**Medium priority:** 22 (17 Progression System úkolů včetně Fitness, Feminine Power, Recurring a Punishments)
 **Low priority:** 6
 **Tech debt:** 5
-**Nápady:** 4 (Recurring tasks implementován jako #051)
+**Nápady:** 4
 **Deprecated:** 2
 **Hotovo (v CHANGELOG.md):** 7
 
 ---
 
-**Další volné číslo:** #052
+**Další volné číslo:** #053
 
 **Poznámka:** Po dokončení úkolu přesuň záznam do `CHANGELOG.md`.
