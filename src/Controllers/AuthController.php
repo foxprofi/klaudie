@@ -64,6 +64,21 @@ class AuthController
             $errors['role'] = 'Role must be either "domina" or "servant"';
         }
 
+        // Servant requires household key
+        if ($data['role'] === 'servant') {
+            if (!isset($data['household_key']) || empty(trim($data['household_key']))) {
+                $errors['household_key'] = 'Household key is required for servant registration';
+            } else {
+                // Verify household key exists
+                $householdModel = new \Klaudie\Models\Household();
+                $household = $householdModel->findByKey(trim($data['household_key']));
+
+                if (!$household) {
+                    $errors['household_key'] = 'Invalid household key';
+                }
+            }
+        }
+
         if (!empty($errors)) {
             return Response::validationError($errors);
         }
@@ -79,12 +94,19 @@ class AuthController
             return Response::error('Email already exists', 409);
         }
 
+        // Add servant to household if role is servant
+        if ($data['role'] === 'servant' && isset($household)) {
+            $householdModel = new \Klaudie\Models\Household();
+            $householdModel->addServant($household['id'], $userId);
+        }
+
         // Auto-login after registration
         Auth::attempt($data['email'], $data['password']);
 
         ActivityLogger::log($userId, null, 'user.register', [
             'email' => $data['email'],
             'role' => $data['role'],
+            'household_id' => $data['role'] === 'servant' && isset($household) ? $household['id'] : null,
         ]);
 
         return Response::success([

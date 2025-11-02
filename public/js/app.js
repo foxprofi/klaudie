@@ -58,10 +58,14 @@ const API = {
         });
     },
 
-    register(email, password, display_name, role) {
+    register(email, password, display_name, role, household_key) {
+        const body = { email, password, display_name, role };
+        if (household_key) {
+            body.household_key = household_key;
+        }
         return this.request('/auth/register', {
             method: 'POST',
-            body: { email, password, display_name, role },
+            body,
         });
     },
 
@@ -386,6 +390,21 @@ const App = {
         });
 
         // Register form
+        // Toggle household key field based on role selection
+        document.getElementById('register-role').addEventListener('change', (e) => {
+            const householdKeyGroup = document.getElementById('household-key-group');
+            const householdKeyInput = document.getElementById('household-key-input');
+
+            if (e.target.value === 'servant') {
+                householdKeyGroup.style.display = 'block';
+                householdKeyInput.required = true;
+            } else {
+                householdKeyGroup.style.display = 'none';
+                householdKeyInput.required = false;
+                householdKeyInput.value = '';
+            }
+        });
+
         document.getElementById('register-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             UI.hideError('register-error');
@@ -395,9 +414,15 @@ const App = {
             const password = formData.get('password');
             const display_name = formData.get('display_name');
             const role = formData.get('role');
+            const household_key = formData.get('household_key');
 
             try {
-                const response = await API.register(email, password, display_name, role);
+                const payload = { email, password, display_name, role };
+                if (role === 'servant' && household_key) {
+                    payload.household_key = household_key;
+                }
+
+                const response = await API.register(email, password, display_name, role, household_key);
                 if (response.success) {
                     State.user = response.data.user;
                     this.showDashboard();
@@ -420,6 +445,11 @@ const App = {
             document.getElementById('btn-create-household').classList.remove('hidden');
         } else {
             document.getElementById('nav-punishments').textContent = 'Moje tresty';
+            // Hide households menu for servants
+            const householdsNav = document.getElementById('nav-households');
+            if (householdsNav) {
+                householdsNav.style.display = 'none';
+            }
         }
 
         // Initialize dashboard handlers

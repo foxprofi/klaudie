@@ -22,6 +22,38 @@ class Household extends Model
     }
 
     /**
+     * Find household by invitation key
+     */
+    public function findByKey(string $key): ?array
+    {
+        $sql = "SELECT * FROM {$this->table} WHERE household_key = ? AND is_active = true";
+        return $this->db->queryOne($sql, [$key]);
+    }
+
+    /**
+     * Create household with auto-generated UUID key
+     */
+    public function create(array $data): int
+    {
+        // Generate UUID if not provided
+        if (!isset($data['household_key'])) {
+            $data['household_key'] = $this->generateUUID();
+        }
+
+        return $this->insert($data);
+    }
+
+    /**
+     * Generate UUID v4
+     */
+    private function generateUUID(): string
+    {
+        $sql = "SELECT UUID() as uuid";
+        $result = $this->db->queryOne($sql);
+        return $result['uuid'];
+    }
+
+    /**
      * Add servant to household
      */
     public function addServant(int $householdId, int $servantId, string $notes = null): int
