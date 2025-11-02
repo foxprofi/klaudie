@@ -61,9 +61,10 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
   - Tabulka `levels` (5 levelů: 0-999, 1000-2999, 3000-5999, 6000-9999, 10000+)
   - Tabulka `achievements` (odznaky za milníky)
   - Tabulka `user_achievements` (vazba user ↔ achievement)
-  - Tabulka `task_library` (500 předpřipravených úkolů z různých kategorií)
+  - Tabulka `task_library` (650 předpřipravených úkolů z 7 kategorií)
   - Tabulka `user_progress` (body, aktuální level, statistiky, negativní penalizace)
-  - Sloupec `preferences` (JSON) v tabulce `households`
+  - Tabulka `fitness_tracking` (denní záznamy váhy, měření, kroky, kalorie, foto)
+  - Sloupec `preferences` (JSON) v tabulce `households` včetně fitness_goals
 
 - [ ] **#037** - Level systém pro dominu
   - 5 levelů s různými oprávněními (body vynásobeny 10)
@@ -83,12 +84,13 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
   - Notifikace při odemčení achievementu
   - Zobrazení achievementů v profilu
 
-- [ ] **#040** - Task Library — 500 úkolů
-  - Kategorie: Household (120), Protocol (80), BDSM (150), Mental (70), Physical (50), Creative (30)
-  - BDSM úkoly rozděleny: Soft, Medium, Hard
-  - Každý úkol má: kategorie, subcategory, difficulty, level_required, bdsm_intensity, preferences_required
+- [ ] **#040** - Task Library — 650 úkolů
+  - Kategorie: Household (120), Protocol (80), BDSM (150), Mental (70), Fitness (150), Physical (50), Creative (30)
+  - BDSM úkoly: Soft (50), Medium (60), Hard (40)
+  - Fitness úkoly: Weight Management (30), Cardio (25), Strength (30), Flexibility (20), Diet (25), Measurements (10), Challenges (10)
+  - Každý úkol: kategorie, subcategory, difficulty, level_required, bdsm_intensity, preferences_required
   - Filtrování podle household preferencí a levelu dominy
-  - Seed data: 500 úkolů do databáze
+  - Seed data: 650 úkolů do databáze
 
 - [ ] **#041** - Onboarding flow s BDSM preferencemi
   - Úvodní kvíz: zkušenosti, lifestyle focus (household/protocol/BDSM/mental/financial)
@@ -148,9 +150,19 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
   - Možnost upravit před přiřazením
   - Zobrazení vlastních úkolů dominy odděleně
 
+- [ ] **#049** - Fitness Tracking System
+  - API: POST /api/fitness/tracking (denní záznam váhy, měření, kroky, kalorie, foto)
+  - API: GET /api/fitness/tracking (historie s filtrováním)
+  - API: PUT /api/households/{id}/fitness-goals (nastavení cílů)
+  - API: GET /api/fitness/weight-compliance (kontrola dodržení váhy)
+  - Automatická penalizace při překročení tolerance (-15b)
+  - Achievement za dosažení target_weight (+50b)
+  - UI: Dashboard s grafem váhy a pokroku
+  - UI: Formulář pro denní report (váha, měření, kroky, kalorie, upload foto)
+
 ### Původní gamifikace (nahrazeno Progression System)
-- [x] **#014** - DEPRECATED — nahrazeno #036-#048
-- [x] **#015** - DEPRECATED — nahrazeno #036-#048
+- [x] **#014** - DEPRECATED — nahrazeno #036-#049
+- [x] **#015** - DEPRECATED — nahrazeno #036-#049
 
 ---
 
@@ -210,9 +222,9 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
 
 ## 📊 Statistiky
 
-**Aktivní úkoly:** 40
+**Aktivní úkoly:** 41
 **High priority:** 4
-**Medium priority:** 18 (13 Progression System úkolů)
+**Medium priority:** 19 (14 Progression System úkolů včetně Fitness)
 **Low priority:** 6
 **Tech debt:** 5
 **Nápady:** 5
@@ -221,6 +233,6 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
 
 ---
 
-**Další volné číslo:** #049
+**Další volné číslo:** #050
 
 **Poznámka:** Po dokončení úkolu přesuň záznam do `CHANGELOG.md`.

@@ -130,7 +130,7 @@ None ──────── Soft ──────── Medium ────�
 
 ---
 
-## Task Library — 500 úkolů
+## Task Library — 650 úkolů
 
 Nahrazuje původní "curriculum". Úkoly filtrované podle household preferencí a levelu dominy.
 
@@ -142,10 +142,11 @@ Nahrazuje původní "curriculum". Úkoly filtrované podle household preferencí
 | **Protocol** | 80 | Pravidla, etiketa, pozice, rituály |
 | **BDSM** | 150 | Impact play, bondage, pain, tresty (soft/medium/hard) |
 | **Mental** | 70 | Psychologická kontrola, ponížení, orgasm control |
-| **Physical** | 50 | Fitness, posture, endurance |
+| **Fitness** | 150 | Weight management, cardio, strength, diet compliance |
+| **Physical** | 50 | Posture training, endurance challenges |
 | **Creative** | 30 | Speciální projekty, překvapení |
 
-**Celkem:** 500 úkolů
+**Celkem:** 650 úkolů
 
 ### BDSM kategorie (150 úkolů) — rozdělení
 
@@ -187,8 +188,8 @@ CREATE TABLE task_library (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
-    category ENUM('household', 'protocol', 'bdsm', 'mental', 'physical', 'creative') NOT NULL,
-    subcategory VARCHAR(50), -- např. 'cleaning', 'cooking', 'impact_play', 'bondage'
+    category ENUM('household', 'protocol', 'bdsm', 'mental', 'fitness', 'physical', 'creative') NOT NULL,
+    subcategory VARCHAR(50), -- např. 'cleaning', 'cooking', 'impact_play', 'bondage', 'weight_management', 'cardio'
     difficulty ENUM('easy', 'medium', 'hard') NOT NULL,
     level_required INT DEFAULT 1, -- minimální level dominy
     bdsm_intensity ENUM('none', 'soft', 'medium', 'hard') DEFAULT 'none',
@@ -276,15 +277,83 @@ CREATE TABLE task_library (
 8. Sebeponížení před zrcadlem — opakovat věty (medium, 15 min, 15b)
 ... (celkem 70)
 
+**Fitness (150):**
+
+*Weight Management (30):*
+1. Vážení každé ráno + report (easy, 2 min, 5b)
+2. Denní fotka na váze (easy, 3 min, 5b)
+3. Udržet váhu v rozmezí ±1 kg týden (easy, weekly, 15b)
+4. Ztráta 0.5 kg týdně (medium, weekly, 15b)
+5. Udržet cílovou váhu měsíc (medium, monthly, 25b)
+6. Dosáhnout cílové váhy [X] kg (hard, ongoing, 50b)
+7. Měření obvodu pasu denně + report (medium, 5 min, 15b)
+8. Udržet 10% tělesného tuku (hard, monthly, 50b)
+... (celkem 30)
+
+*Cardio (25):*
+10. Chůze 30 minut (easy, 30 min, 5b)
+11. 5000 kroků denně (easy, daily, 5b)
+12. Chůze po schodech místo výtahu (easy, daily, 5b)
+13. Běh 3 km (medium, 25 min, 15b)
+14. 10000 kroků denně (medium, daily, 15b)
+15. HIIT trénink 20 minut (medium, 20 min, 15b)
+16. Běh 10 km (hard, 60 min, 25b)
+17. 20000 kroků denně (hard, daily, 25b)
+18. HIIT 45 minut (hard, 45 min, 25b)
+... (celkem 25)
+
+*Strength Training (30):*
+20. 10 push-ups (easy, 5 min, 5b)
+21. 20 squats (easy, 5 min, 5b)
+22. 30 sekund plank (easy, 1 min, 5b)
+23. 30 push-ups (medium, 10 min, 15b)
+24. 50 squats (medium, 10 min, 15b)
+25. 2 minuty plank (medium, 2 min, 15b)
+26. 20 burpees (medium, 10 min, 15b)
+27. 100 push-ups (hard, 20 min, 25b)
+28. 200 squats (hard, 30 min, 25b)
+29. 5 minut plank (hard, 5 min, 25b)
+30. 50 burpees (hard, 20 min, 25b)
+... (celkem 30)
+
+*Flexibility (20):*
+35. 10 minut ranního strečinku (easy, 10 min, 5b)
+36. Základní jóga pozice 5 minut (easy, 5 min, 5b)
+37. 30 minut jógy (medium, 30 min, 15b)
+38. Full body stretch 20 min (medium, 20 min, 15b)
+... (celkem 20)
+
+*Diet Compliance (25):*
+40. Žádné sladkosti dnes (easy, daily, 5b)
+41. Pít 2L vody denně (easy, daily, 5b)
+42. Report každého jídla domině (easy, daily, 5b)
+43. Dodržet keto dietu týden (medium, weekly, 25b)
+44. Max 1500 kcal denně (medium, daily, 15b)
+45. Žádné sacharidy 3 dny (medium, ongoing, 20b)
+46. Meal prep pro celý týden (medium, 120 min, 25b)
+47. Přísná dieta měsíc (hard, monthly, 100b)
+48. Max 1000 kcal 7 dní (hard, weekly, 50b)
+49. Půst 24 hodin (hard, daily, 25b)
+... (celkem 25)
+
+*Body Measurements (10):*
+50. Měření pasu + boky + hrudník týdně (easy, 5 min, 5b)
+51. Denní report všech měření (medium, 10 min, 15b)
+52. Foto progress každý týden (medium, 5 min, 15b)
+... (celkem 10)
+
+*Physical Challenges (10):*
+55. 30 day plank challenge (hard, monthly, 100b)
+56. 100 squats denně měsíc (hard, monthly, 100b)
+57. No sugar challenge 30 dní (hard, monthly, 100b)
+... (celkem 10)
+
 **Physical (50):**
-1. 50 dřepů (easy, 10 min, 5b)
-2. Držení pozice plank 3 minuty (medium, 3 min, 15b)
-3. 30 minut jógy (medium, 30 min, 15b)
-4. Posture training — rovná záda 2 hodiny (medium, 120 min, 15b)
-5. Wall sit — 5 minut (medium, 5 min, 15b)
-6. Běh 5 km (hard, 40 min, 25b)
-7. Klečící pozice s knihou na hlavě 20 min (medium, 20 min, 15b)
-8. Endurance challenge — kombinace cvičení 45 min (hard, 45 min, 25b)
+60. Posture training — rovná záda 2 hodiny (medium, 120 min, 15b)
+61. Wall sit — 5 minut (medium, 5 min, 15b)
+62. Klečící pozice s knihou na hlavě 20 min (medium, 20 min, 15b)
+63. Endurance challenge — kombinace cvičení 45 min (hard, 45 min, 25b)
+64. Držení specifické pozice 30 min (medium, 30 min, 15b)
 ... (celkem 50)
 
 **Creative (30):**
@@ -567,6 +636,44 @@ CREATE TABLE user_progress (
 ALTER TABLE households ADD COLUMN preferences JSON AFTER description;
 ```
 
+### `fitness_tracking` (nová tabulka)
+```sql
+CREATE TABLE fitness_tracking (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    date DATE NOT NULL,
+    weight DECIMAL(5,2), -- kg
+    body_fat_percentage DECIMAL(4,2), -- %
+    waist_circumference INT, -- cm
+    hip_circumference INT, -- cm
+    chest_circumference INT, -- cm
+    photo_url VARCHAR(255), -- foto těla
+    calories_consumed INT,
+    steps_count INT,
+    workout_minutes INT,
+    notes TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_user_date (user_id, date),
+    INDEX idx_user_date (user_id, date)
+);
+```
+
+**Household preferences rozšíření o fitness goals:**
+```json
+{
+  "lifestyle_focus": ["household", "fitness"],
+  "bdsm_intensity": "none",
+  "fitness_goals": {
+    "target_weight": 75.0,
+    "target_body_fat": 12.0,
+    "daily_calorie_limit": 1500,
+    "daily_step_goal": 10000,
+    "weight_tolerance": 1.0
+  }
+}
+```
+
 ---
 
 ## Negativní bodový systém — Implementace
@@ -697,9 +804,69 @@ public function applyPenalty(array $data): array
 
 ---
 
+## Fitness API Endpointy
+
+### Tracking
+```
+POST /api/fitness/tracking
+{
+  "date": "2025-11-02",
+  "weight": 78.5,
+  "waist_circumference": 85,
+  "hip_circumference": 98,
+  "calories_consumed": 1450,
+  "steps_count": 12000,
+  "workout_minutes": 45,
+  "photo_url": "/uploads/fitness/servant_123_20251102.jpg",
+  "notes": "Dobrý den, cítím pokrok"
+}
+
+GET /api/fitness/tracking?user_id={id}&from=2025-10-01&to=2025-11-02
+Response: [{ date, weight, ... }]
+
+GET /api/fitness/tracking/latest?user_id={id}
+Response: { date, weight, ... }
+```
+
+### Goals Management
+```
+PUT /api/households/{id}/fitness-goals
+{
+  "target_weight": 75.0,
+  "target_body_fat": 12.0,
+  "daily_calorie_limit": 1500,
+  "daily_step_goal": 10000
+}
+
+GET /api/households/{id}/fitness-goals
+Response: { target_weight, target_body_fat, ... }
+```
+
+### Weight Validation (pro úkoly)
+```
+GET /api/fitness/weight-compliance?user_id={id}&days=7
+Response: {
+  "compliant": true,
+  "current_weight": 75.5,
+  "target_weight": 75.0,
+  "tolerance": 1.0,
+  "average_weight_7days": 75.3
+}
+```
+
+**Backend logika:**
+- Automatická validace pro fitness úkoly
+- Penalizace pokud váha přesáhne tolerance (-15b)
+- Bonus body za dosažení target_weight (+50b, achievement)
+
+---
+
 ## Poznámky
 
-- **500 úkolů** = seed data v SQL nebo PHP seed script
+- **650 úkolů** = seed data v SQL nebo PHP seed script
+- **Fitness tracking** = samostatná tabulka s denními záznamy
+- **Weight compliance** = automatická kontrola cílové váhy
+- **Photo uploads** = servant fotí tělo denně, domina schvaluje
 - **Vlastní úkoly** dominy mají `is_custom=true`, `created_by=domina_id`
 - **BDSM úkoly** mají `safety_notes` pro bezpečnost
 - **Negativní motivace** drží uživatele aktivní — bez aktivity klesají body
