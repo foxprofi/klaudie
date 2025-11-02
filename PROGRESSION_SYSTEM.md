@@ -130,7 +130,7 @@ None ──────── Soft ──────── Medium ────�
 
 ---
 
-## Task Library — 650 úkolů
+## Task Library — 720 úkolů
 
 Nahrazuje původní "curriculum". Úkoly filtrované podle household preferencí a levelu dominy.
 
@@ -145,8 +145,9 @@ Nahrazuje původní "curriculum". Úkoly filtrované podle household preferencí
 | **Fitness** | 150 | Weight management, cardio, strength, diet compliance |
 | **Physical** | 50 | Posture training, endurance challenges |
 | **Creative** | 30 | Speciální projekty, překvapení |
+| **Feminine Power** | 70 | Vizuální dominance, oblečení, make-up, líčení (pouze pro dominu) |
 
-**Celkem:** 650 úkolů
+**Celkem:** 720 úkolů
 
 ### BDSM kategorie (150 úkolů) — rozdělení
 
@@ -861,9 +862,433 @@ Response: {
 
 ---
 
+## Feminine Power System — Denní Checklist Dominy
+
+### Koncept
+
+Domina buduje svou **vizuální dominanci** postupně. Od casual po femme fatale.
+
+**Klíčové:**
+- Denní checklist (povinný)
+- Servant jako "witness" může potvrdit splnění za dominu
+- Nesplnění = penalizace **-20b pro dominu, -10b pro servanta**
+- Servant motivován sledovat, zda domina vypadá jako má
+
+**Proč servant také ztrácí body?**
+Protože je jeho povinnost zajistit, aby domina měla podmínky k tomu vypadat dokonale. Pokud domina nesplní checklist, je to selhání OBOU.
+
+---
+
+### Denní Checklist — Progression po levelech
+
+**Level 1 — Začátečnice (0-999 bodů)**
+
+Denní checklist (min. 3/5):
+- [ ] Hezké oblečení (ne tepláky, ne mikina)
+- [ ] Čisté vlasy (umyté nebo upravené)
+- [ ] Základní líčení (tušs, rtěnka)
+- [ ] Kvalitní spodní prádlo (ne staré bavlněné)
+- [ ] Parfém
+
+Body za splnění: +5b denně
+Penalizace za nesplnění: -20b domina, -10b servant
+
+---
+
+**Level 2 — Učící se (1000-2999 bodů)**
+
+Denní checklist (min. 4/6):
+- [ ] Hezké oblečení (šaty nebo sukně alespoň 2x týdně)
+- [ ] Upravené vlasy (styling, ne jen mytí)
+- [ ] Líčení (oči + rtěnka + tvář)
+- [ ] Krajkové prádlo nebo podprsenka s kosticemi
+- [ ] Parfém
+- [ ] Šperky (náušnice nebo náhrdelník)
+
+Body za splnění: +10b denně
+Penalizace: -20b domina, -10b servant
+
+---
+
+**Level 3 — Sebevědomá (3000-5999 bodů)**
+
+Denní checklist (min. 5/7):
+- [ ] Šaty nebo sukně denně (kalhoty povoleny max 2x týdně)
+- [ ] Profesionální vlasová úprava
+- [ ] Kompletní líčení (oči, tvář, rty, kontura)
+- [ ] Krajkové prádlo denně
+- [ ] Punčochy nebo podvazkový pás (min 3x týdně)
+- [ ] Podpatky (min 5cm, denně)
+- [ ] Manikúra (upravené nehty, lak)
+
+Body za splnění: +15b denně
+Penalizace: -25b domina, -15b servant
+
+---
+
+**Level 4 — Zkušená (6000-9999 bodů)**
+
+Denní checklist (min. 6/8):
+- [ ] Šaty nebo sukně denně (kalhoty zakázány)
+- [ ] Perfektní účes (profesionální styling)
+- [ ] Výrazné líčení (smokey eyes, kontura, rty)
+- [ ] Luxusní krajkové prádlo (set)
+- [ ] Punčochy a podvazkový pás denně
+- [ ] Podpatky min 7cm denně
+- [ ] Manikúra + pedikúra (perfektní)
+- [ ] Šperk set (náušnice + náhrdelník nebo náramek)
+
+Body za splnění: +20b denně
+Penalizace: -30b domina, -20b servant
+
+---
+
+**Level 5 — Expertka / Femme Fatale (10000+ bodů)**
+
+Denní checklist (min. 7/9):
+- [ ] Designové šaty nebo business šaty denně
+- [ ] Salon-level účes denně
+- [ ] Profesionální make-up (contouring, highlighting, perfektní)
+- [ ] Designer krajkové prádlo (La Perla level)
+- [ ] Punčochy švové nebo luxusní (denně)
+- [ ] Podpatky min 10cm (stilettos)
+- [ ] Perfektní manikúra + pedikúra (salon weekly)
+- [ ] Kompletní šperkový set
+- [ ] Signature parfém (niche fragrance)
+
+Body za splnění: +30b denně
+Penalizace: -50b domina, -30b servant
+
+---
+
+### Databázová struktura
+
+**Tabulka `domina_daily_checklist`:**
+
+```sql
+CREATE TABLE domina_daily_checklist (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL, -- domina ID
+    date DATE NOT NULL,
+    level_id INT NOT NULL, -- aktuální level dominy v tento den
+    checklist_items JSON NOT NULL, -- pole zaškrtnutých položek
+    completed_count INT NOT NULL, -- kolik položek splněno
+    required_count INT NOT NULL, -- kolik bylo potřeba (dle levelu)
+    is_compliant BOOLEAN NOT NULL, -- splněno >= required
+    verified_by INT NULL, -- servant ID, pokud servant potvrdil
+    verified_at TIMESTAMP NULL,
+    points_awarded INT DEFAULT 0, -- body udělené za splnění
+    penalty_applied BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (level_id) REFERENCES levels(id),
+    FOREIGN KEY (verified_by) REFERENCES users(id) ON DELETE SET NULL,
+    UNIQUE KEY unique_user_date (user_id, date),
+    INDEX idx_user_date (user_id, date)
+);
+```
+
+**Příklad JSON:**
+```json
+{
+  "nice_clothes": true,
+  "hair_styled": true,
+  "makeup_full": true,
+  "lingerie_lace": true,
+  "stockings": false,
+  "heels": true,
+  "manicure": true,
+  "jewelry": true,
+  "perfume": true
+}
+```
+
+---
+
+### API Endpointy
+
+**Denní checklist (domina vyplní):**
+```php
+POST /api/domina/checklist
+{
+  "date": "2025-11-02",
+  "checklist_items": {
+    "nice_clothes": true,
+    "hair_styled": true,
+    "makeup_full": true,
+    "lingerie_lace": true,
+    "stockings": false,
+    "heels": true,
+    "manicure": true
+  }
+}
+
+Response: {
+  "completed_count": 6,
+  "required_count": 5,
+  "is_compliant": true,
+  "points_awarded": 15,
+  "message": "Checklist splněn. +15 bodů."
+}
+```
+
+**Servant verification (witness):**
+```php
+POST /api/domina/checklist/verify
+{
+  "domina_id": 123,
+  "date": "2025-11-02",
+  "checklist_items": {
+    "nice_clothes": true,
+    "hair_styled": true,
+    ...
+  }
+}
+
+Response: {
+  "verified": true,
+  "verified_by": "servant_456",
+  "points_awarded": 15,
+  "message": "Checklist potvrzen servantem."
+}
+
+Validace:
+- Pouze servant z téhož household může potvrdit
+- Pouze 1 verifikace denně
+- Pokud domina už vyplnila, servant nemůže přepsat (pouze pokud domina NEVYPLNILA)
+```
+
+**Get checklist pro den:**
+```php
+GET /api/domina/checklist?date=2025-11-02
+
+Response: {
+  "date": "2025-11-02",
+  "level_id": 3,
+  "checklist_items": { ... },
+  "completed_count": 6,
+  "required_count": 5,
+  "is_compliant": true,
+  "verified_by": null,
+  "points_awarded": 15
+}
+```
+
+**Historie checklistu:**
+```php
+GET /api/domina/checklist/history?from=2025-10-01&to=2025-11-02
+
+Response: [
+  {
+    "date": "2025-11-02",
+    "is_compliant": true,
+    "completed_count": 6,
+    "points_awarded": 15
+  },
+  {
+    "date": "2025-11-01",
+    "is_compliant": false,
+    "completed_count": 3,
+    "penalty_applied": true
+  }
+]
+```
+
+---
+
+### Business Logika
+
+**Automatická penalizace (cron job):**
+
+```php
+// Cron: každý den v 23:59
+public function checkDominaChecklistCompliance(): void
+{
+    $dominas = User::where('role', 'domina')->get();
+
+    foreach ($dominas as $domina) {
+        $today = now()->format('Y-m-d');
+        $checklist = DominaDailyChecklist::where('user_id', $domina->id)
+            ->where('date', $today)
+            ->first();
+
+        if (!$checklist || !$checklist->is_compliant) {
+            // Penalizace pro dominu
+            $dominaPenalty = match($domina->level_id) {
+                1, 2 => -20,
+                3 => -25,
+                4 => -30,
+                5 => -50,
+                default => -20
+            };
+            ProgressService::addPoints($domina->id, $dominaPenalty, 'checklist_non_compliant');
+
+            // Penalizace pro všechny servanty v household
+            $servants = HouseholdMember::where('household_id', $domina->household_id)
+                ->where('role', 'servant')
+                ->get();
+
+            $servantPenalty = match($domina->level_id) {
+                1, 2 => -10,
+                3 => -15,
+                4 => -20,
+                5 => -30,
+                default => -10
+            };
+
+            foreach ($servants as $servant) {
+                ProgressService::addPoints($servant->user_id, $servantPenalty, 'domina_checklist_non_compliant');
+            }
+
+            ActivityLogger::log($domina->id, null, 'penalty.checklist_non_compliant', [
+                'reason' => 'Daily checklist not completed',
+                'date' => $today,
+                'domina_penalty' => $dominaPenalty,
+                'servant_penalty' => $servantPenalty
+            ]);
+
+            if ($checklist) {
+                $checklist->penalty_applied = true;
+                $checklist->save();
+            }
+        }
+    }
+}
+```
+
+**Servant verification logika:**
+
+```php
+public function verifyChecklistAsServant(int $dominaId, string $date, array $checklistItems): array
+{
+    // Validace: servant musí být z téhož household
+    $servant = Auth::user();
+    $domina = User::findById($dominaId);
+
+    if ($servant->household_id !== $domina->household_id) {
+        return Response::forbidden('You can only verify your domina\'s checklist');
+    }
+
+    // Zkontroluj, zda domina už checklist nevyplnila
+    $existing = DominaDailyChecklist::where('user_id', $dominaId)
+        ->where('date', $date)
+        ->first();
+
+    if ($existing && $existing->verified_by === null) {
+        // Domina vyplnila, servant nemůže přepsat
+        return Response::forbidden('Domina already filled checklist. You cannot override.');
+    }
+
+    if ($existing && $existing->verified_by !== null) {
+        // Už bylo verifikováno
+        return Response::error('Checklist already verified');
+    }
+
+    // Vytvoř checklist za dominu (servant jako svědek)
+    return $this->createChecklist($dominaId, $date, $checklistItems, $servant->id);
+}
+```
+
+---
+
+### UI Mock
+
+**Domina Dashboard — Denní checklist:**
+
+```
+┌──────────────────────────────────────────────┐
+│ Denní checklist — Level 3: Sebevědomá       │
+│                                              │
+│ Dnes: 2025-11-02                             │
+│ Splněno: 6/7 ✅ (+15 bodů)                  │
+│                                              │
+│ ☑ Šaty nebo sukně denně                     │
+│ ☑ Profesionální vlasová úprava              │
+│ ☑ Kompletní líčení                          │
+│ ☑ Krajkové prádlo denně                     │
+│ ☐ Punčochy (min 3x týdně)                   │
+│ ☑ Podpatky min 5cm                          │
+│ ☑ Manikúra                                  │
+│                                              │
+│ [Uložit checklist]                           │
+│                                              │
+│ Poslední 7 dní: ✅✅✅❌✅✅✅              │
+└──────────────────────────────────────────────┘
+```
+
+**Servant Dashboard — Verification:**
+
+```
+┌──────────────────────────────────────────────┐
+│ Checklist paní — Verification                │
+│                                              │
+│ Domina ještě nevyplnila dnešní checklist.   │
+│ Můžeš potvrdit za ni jako svědek.           │
+│                                              │
+│ ☑ Šaty nebo sukně                           │
+│ ☑ Vlasy upravené                            │
+│ ☑ Líčení kompletní                          │
+│ ☑ Krajkové prádlo                           │
+│ ☐ Punčochy                                  │
+│ ☑ Podpatky                                  │
+│ ☑ Manikúra                                  │
+│                                              │
+│ [Potvrdit jako svědek]                       │
+│                                              │
+│ ⚠️ Pokud nesplněno, ztratíš -10b ty,        │
+│    paní ztratí -20b.                         │
+└──────────────────────────────────────────────┘
+```
+
+---
+
+### Feminine Power Task Library (70 úkolů)
+
+**Level 1-2 (20 úkolů):**
+1. Nakoupit 3 hezké sukně (medium, 120 min, 15b)
+2. Nakoupit krajkové prádlo set (easy, 60 min, 5b)
+3. Naučit se základy make-upu (tutorial) (medium, 90 min, 15b)
+4. Vybrat signature parfém (medium, 60 min, 15b)
+5. Nakoupit podpatky min 5cm (easy, 60 min, 5b)
+6. Nakoupit kvalitní šperky set (medium, 90 min, 15b)
+7. YouTube tutorial - denní make-up (easy, 30 min, 5b)
+8. Vyčistit šatník (odstranit tepláky) (easy, 60 min, 5b)
+9. Nakoupit 5 hezké halenky (medium, 120 min, 15b)
+10. Vyzkoušet nový účes (easy, 45 min, 5b)
+... (celkem 20)
+
+**Level 3-4 (30 úkolů):**
+11. Návštěva kadeřníka (profesionální střih) (medium, 120 min, 25b)
+12. Kurz make-upu (hard, 180 min, 50b)
+13. Nakoupit designer krajkové prádlo (hard, 120 min, 25b)
+14. Salon manikúra + pedikúra (medium, 90 min, 15b)
+15. Nakoupit punčochy švové (medium, 60 min, 15b)
+16. Nakoupit podpatky 10cm+ (medium, 90 min, 15b)
+17. Vytvořit capsule wardrobe (šaty only) (hard, 240 min, 50b)
+18. Profesionální konzultace make-up artist (hard, 120 min, 50b)
+19. Nakoupit 5 luxusních šatů (hard, 180 min, 50b)
+20. Color analysis session (medium, 90 min, 25b)
+... (celkem 30)
+
+**Level 5 (20 úkolů):**
+21. Personal shopper session (hard, 180 min, 50b)
+22. Profesionální make-up session (hard, 120 min, 50b)
+23. Nakoupit designer šaty (hard, 180 min, 50b)
+24. Salon vlasy + make-up (complete makeover) (hard, 240 min, 100b)
+25. Niche parfém konzultace (hard, 120 min, 50b)
+26. Designer lingerie fitting (La Perla) (hard, 120 min, 50b)
+27. Professional photoshoot (femme fatale theme) (hard, 180 min, 100b)
+28. Wardrobe audit with stylist (hard, 240 min, 100b)
+29. High-end jewelry shopping (hard, 180 min, 100b)
+30. Signature scent creation (custom) (hard, 240 min, 100b)
+... (celkem 20)
+
+---
+
 ## Poznámky
 
-- **650 úkolů** = seed data v SQL nebo PHP seed script
+- **720 úkolů** = seed data v SQL nebo PHP seed script (650 + 70 Feminine Power)
 - **Fitness tracking** = samostatná tabulka s denními záznamy
 - **Weight compliance** = automatická kontrola cílové váhy
 - **Photo uploads** = servant fotí tělo denně, domina schvaluje
@@ -875,6 +1300,6 @@ Response: {
 
 ---
 
-**Konečný stav:** Systém nabízí 500 připravených úkolů, respektuje hranice BDSM, motivuje negativními penalizacemi, podporuje vlastní tvorbu.
+**Konečný stav:** Systém nabízí 720 připravených úkolů (včetně Feminine Power), respektuje hranice BDSM, motivuje negativními penalizacemi, podporuje vlastní tvorbu. Domina má povinný denní checklist vizuální dominance s penalizací pro OBA.
 
 **Design uzavřen.**

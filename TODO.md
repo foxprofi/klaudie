@@ -84,13 +84,14 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
   - Notifikace při odemčení achievementu
   - Zobrazení achievementů v profilu
 
-- [ ] **#040** - Task Library — 650 úkolů
-  - Kategorie: Household (120), Protocol (80), BDSM (150), Mental (70), Fitness (150), Physical (50), Creative (30)
+- [ ] **#040** - Task Library — 720 úkolů
+  - Kategorie: Household (120), Protocol (80), BDSM (150), Mental (70), Fitness (150), Physical (50), Creative (30), Feminine Power (70)
   - BDSM úkoly: Soft (50), Medium (60), Hard (40)
   - Fitness úkoly: Weight Management (30), Cardio (25), Strength (30), Flexibility (20), Diet (25), Measurements (10), Challenges (10)
+  - Feminine Power: Level 1-2 (20), Level 3-4 (30), Level 5 (20) — oblečení, make-up, styling
   - Každý úkol: kategorie, subcategory, difficulty, level_required, bdsm_intensity, preferences_required
   - Filtrování podle household preferencí a levelu dominy
-  - Seed data: 650 úkolů do databáze
+  - Seed data: 720 úkolů do databáze
 
 - [ ] **#041** - Onboarding flow s BDSM preferencemi
   - Úvodní kvíz: zkušenosti, lifestyle focus (household/protocol/BDSM/mental/financial)
@@ -160,9 +161,24 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
   - UI: Dashboard s grafem váhy a pokroku
   - UI: Formulář pro denní report (váha, měření, kroky, kalorie, upload foto)
 
+- [ ] **#050** - Feminine Power System (denní checklist dominy)
+  - Databázová tabulka `domina_daily_checklist`
+  - 5 levelů denních checklistů (progressive requirements: 3/5 → 7/9)
+  - API: POST /api/domina/checklist (domina vyplní)
+  - API: POST /api/domina/checklist/verify (servant jako witness)
+  - API: GET /api/domina/checklist (get pro den)
+  - API: GET /api/domina/checklist/history (historie)
+  - Cron job: denní kontrola compliance (23:59)
+  - Penalizace při nesplnění: -20b až -50b domina, -10b až -30b servant (dle levelu)
+  - Body za splnění: +5b až +30b dle levelu
+  - 70 úkolů kategorie Feminine Power (oblečení, make-up, styling)
+  - UI: Domina checklist dashboard
+  - UI: Servant verification interface (může potvrdit za dominu jako svědek)
+  - Validace: servant nemůže přepsat checklist vyplněný dominou
+
 ### Původní gamifikace (nahrazeno Progression System)
-- [x] **#014** - DEPRECATED — nahrazeno #036-#049
-- [x] **#015** - DEPRECATED — nahrazeno #036-#049
+- [x] **#014** - DEPRECATED — nahrazeno #036-#050
+- [x] **#015** - DEPRECATED — nahrazeno #036-#050
 
 ---
 
@@ -222,9 +238,9 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
 
 ## 📊 Statistiky
 
-**Aktivní úkoly:** 41
+**Aktivní úkoly:** 42
 **High priority:** 4
-**Medium priority:** 19 (14 Progression System úkolů včetně Fitness)
+**Medium priority:** 20 (15 Progression System úkolů včetně Fitness a Feminine Power)
 **Low priority:** 6
 **Tech debt:** 5
 **Nápady:** 5
@@ -233,6 +249,6 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
 
 ---
 
-**Další volné číslo:** #050
+**Další volné číslo:** #051
 
 **Poznámka:** Po dokončení úkolu přesuň záznam do `CHANGELOG.md`.
