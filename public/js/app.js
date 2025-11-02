@@ -652,21 +652,47 @@ const App = {
     },
 
     copyHouseholdKey(key) {
-        // Copy to clipboard
-        navigator.clipboard.writeText(key).then(() => {
-            alert('Klíč byl zkopírován do schránky!');
-        }).catch((error) => {
-            // Fallback for older browsers
+        // Method 1: Classic textarea method (works everywhere)
+        try {
             const textArea = document.createElement('textarea');
             textArea.value = key;
             textArea.style.position = 'fixed';
-            textArea.style.opacity = '0';
+            textArea.style.top = '0';
+            textArea.style.left = '0';
+            textArea.style.width = '2em';
+            textArea.style.height = '2em';
+            textArea.style.padding = '0';
+            textArea.style.border = 'none';
+            textArea.style.outline = 'none';
+            textArea.style.boxShadow = 'none';
+            textArea.style.background = 'transparent';
             document.body.appendChild(textArea);
+            textArea.focus();
             textArea.select();
-            document.execCommand('copy');
+
+            const successful = document.execCommand('copy');
             document.body.removeChild(textArea);
-            alert('Klíč byl zkopírován do schránky!');
-        });
+
+            if (successful) {
+                alert('Klíč byl zkopírován do schránky!\n\n' + key);
+                return;
+            }
+        } catch (err) {
+            console.error('Classic copy method failed:', err);
+        }
+
+        // Method 2: Try modern Clipboard API as fallback
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(key).then(() => {
+                alert('Klíč byl zkopírován do schránky!\n\n' + key);
+            }).catch((err) => {
+                console.error('Clipboard API failed:', err);
+                alert('Chyba při kopírování. Zkopírujte klíč ručně:\n\n' + key);
+            });
+        } else {
+            // Show the key if all methods fail
+            alert('Zkopírujte klíč ručně:\n\n' + key);
+        }
     },
 
     async regenerateHouseholdKey(householdId) {
