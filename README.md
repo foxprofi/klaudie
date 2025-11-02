@@ -1,4 +1,4 @@
-# Virtual Domina
+# Klaudie
 
 **Autor:** Klaudie <klaudie@foxprofi.cz>
 

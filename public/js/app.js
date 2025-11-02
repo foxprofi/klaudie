@@ -1,7 +1,7 @@
 /**
  * @Author: Klaudie <klaudie@foxprofi.cz>
  *
- * Virtual Domina - Frontend Application
+ * Klaudie - Frontend Application
  */
 
 // Configuration

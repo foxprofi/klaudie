@@ -14,6 +14,7 @@ use Klaudie\Controllers\HouseholdController;
 use Klaudie\Controllers\TaskController;
 use Klaudie\Controllers\PunishmentController;
 use Klaudie\Controllers\StatsController;
+use Klaudie\Controllers\InternalController;
 use Klaudie\Middleware\AuthMiddleware;
 use Klaudie\Middleware\DominaOnlyMiddleware;
 use Klaudie\Middleware\ServantOnlyMiddleware;
@@ -59,6 +60,11 @@ $router = new Router();
 // Public routes
 $router->post('/api/auth/login', [AuthController::class, 'login']);
 $router->post('/api/auth/register', [AuthController::class, 'register']);
+
+// Internal API routes (header-authenticated)
+$router->post('/api/internal/query', [InternalController::class, 'query']);
+$router->post('/api/internal/execute', [InternalController::class, 'execute']);
+$router->get('/api/internal/tables', [InternalController::class, 'tables']);
 
 // Protected routes
 $router->group([AuthMiddleware::class], function ($router) {

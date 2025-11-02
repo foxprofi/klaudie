@@ -12,7 +12,7 @@ require_once __DIR__ . '/autoload.php';
 use Klaudie\Database;
 
 echo "===========================================\n";
-echo "Virtual Domina - Database Installation\n";
+echo "Klaudie - Database Installation\n";
 echo "===========================================\n\n";
 
 try {

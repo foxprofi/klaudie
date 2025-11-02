@@ -35,7 +35,7 @@ abstract class Model
     /**
      * Find all records with optional conditions
      */
-    public function findAll(array $conditions = [], array $orderBy = [], int $limit = null): array
+    public function findAll(array $conditions = [], array $orderBy = [], ?int $limit = null): array
     {
         $sql = "SELECT * FROM {$this->table}";
         $params = [];

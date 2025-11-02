@@ -5,7 +5,7 @@
 
 return [
     'app' => [
-        'name' => 'Virtual Domina',
+        'name' => 'Klaudie',
         'version' => '1.0.0',
         'environment' => $_ENV['APP_ENV'] ?? getenv('APP_ENV') ?: 'development',
         'debug' => ($_ENV['APP_DEBUG'] ?? getenv('APP_DEBUG')) === 'true',
@@ -14,7 +14,7 @@ return [
     ],
 
     'session' => [
-        'name' => 'DOMINA_SESSION',
+        'name' => 'KLAUDIE_SESSION',
         'lifetime' => 7200, // 2 hours
         'secure' => ($_ENV['APP_ENV'] ?? getenv('APP_ENV')) === 'production',
         'httponly' => true,
@@ -26,7 +26,7 @@ return [
         'password_options' => [
             'memory_cost' => 65536,
             'time_cost' => 4,
-            'threads' => 3,
+            'threads' => 1,
         ],
     ],
 
