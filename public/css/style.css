@@ -370,6 +370,21 @@ body {
     box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
+.badge-success {
+    background: linear-gradient(135deg, var(--success), #008556);
+    border: 1px solid var(--success);
+}
+
+.badge-danger {
+    background: linear-gradient(135deg, var(--danger), #b01030);
+    border: 1px solid var(--danger);
+}
+
+.badge-secondary {
+    background: linear-gradient(135deg, #555, #333);
+    border: 1px solid #666;
+}
+
 /* Dashboard layout */
 .dashboard-layout {
     display: flex;
