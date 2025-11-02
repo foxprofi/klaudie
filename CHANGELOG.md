@@ -41,6 +41,10 @@ Historie implementovaných funkcionalit a změn v projektu.
   - Vizuální rozlišení aktivních a neaktivních servantů
   - Zpráva při prázdném seznamu servantů
 
+- **#035** - Barevné rozlišení statusu servanta
+  - Aktivní servant: zelený badge (badge-success)
+  - Neaktivní servant: červený badge (badge-danger) místo šedého
+
 ### Changed
 - Přejmenování "Domácnosti" na "Panství" v celé aplikaci
   - UI texty v HTML (menu, modaly, formuláře)

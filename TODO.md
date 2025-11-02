@@ -130,10 +130,10 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
 **Low priority:** 6
 **Tech debt:** 5
 **Nápady:** 5
-**Hotovo (v CHANGELOG.md):** 6
+**Hotovo (v CHANGELOG.md):** 7
 
 ---
 
-**Další volné číslo:** #035
+**Další volné číslo:** #036
 
 **Poznámka:** Po dokončení úkolu přesuň záznam do `CHANGELOG.md`.

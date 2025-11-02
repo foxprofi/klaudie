@@ -315,7 +315,7 @@ const UI = {
                                                 </div>
                                             </div>
                                             <div>
-                                                <span class="badge badge-${servant.status === 'active' ? 'success' : 'secondary'}" style="padding: 0.25rem 0.75rem;">
+                                                <span class="badge badge-${servant.status === 'active' ? 'success' : 'danger'}" style="padding: 0.25rem 0.75rem;">
                                                     ${servant.status === 'active' ? 'Aktivní' : 'Neaktivní'}
                                                 </span>
                                             </div>
