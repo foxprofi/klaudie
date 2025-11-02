@@ -45,6 +45,13 @@ Historie implementovaných funkcionalit a změn v projektu.
   - Aktivní servant: zelený badge (badge-success)
   - Neaktivní servant: červený badge (badge-danger) místo šedého
 
+### Fixed
+- CSS badge color classes nebyly definovány
+  - Přidána třída `.badge-success` (zelený gradient)
+  - Přidána třída `.badge-danger` (červený gradient)
+  - Přidána třída `.badge-secondary` (šedý gradient)
+  - Opraveno zobrazení barev u statusů servantů
+
 ### Changed
 - Přejmenování "Domácnosti" na "Panství" v celé aplikaci
   - UI texty v HTML (menu, modaly, formuláře)
