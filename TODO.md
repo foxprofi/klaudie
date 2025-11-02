@@ -58,22 +58,24 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
 
 ### Progression System (Vzdělávací systém pro páry)
 - [ ] **#036** - Databázová migrace pro Progression System
-  - Tabulka `levels` (5 levelů dominy: Začátečnice → Expertka)
+  - Tabulka `levels` (5 levelů: 0-999, 1000-2999, 3000-5999, 6000-9999, 10000+)
   - Tabulka `achievements` (odznaky za milníky)
   - Tabulka `user_achievements` (vazba user ↔ achievement)
-  - Tabulka `curriculum_templates` (předpřipravené úkoly/tresty/pravidla dle levelů)
-  - Tabulka `user_progress` (body, aktuální level, statistiky)
+  - Tabulka `task_library` (500 předpřipravených úkolů z různých kategorií)
+  - Tabulka `user_progress` (body, aktuální level, statistiky, negativní penalizace)
+  - Sloupec `preferences` (JSON) v tabulce `households`
 
 - [ ] **#037** - Level systém pro dominu
-  - 5 levelů s různými oprávněními
+  - 5 levelů s různými oprávněními (body vynásobeny 10)
   - Automatické odemykání funkcí podle pokroku
   - Progress bar k dalšímu levelu
   - Backend validace oprávnění podle levelu
 
-- [ ] **#038** - Bodový systém
-  - Body za akce dominy (vytvoření úkolu: 5b, verifikace: 10b, aplikace trestu: 15b)
-  - Body za splněné úkoly servanta (podle obtížnosti: 5-25b)
-  - Automatický přepočet bodů → level up
+- [ ] **#038** - Bodový systém s negativní motivací
+  - Pozitivní body za akce (vytvoření: 5b, verifikace: 10b, trest: 15b)
+  - Pozitivní body za splněné úkoly (5-25b dle obtížnosti)
+  - NEGATIVNÍ PENALIZACE: žádný úkol 24h (-10b), odmítnutí (-25b), deadline miss (-15b), porušení pravidla (-20b), nerespekt (-50b)
+  - Automatický přepočet bodů → level up/down
 
 - [ ] **#039** - Achievement systém
   - Definice achievementů (První úkol, První týden, 10 úkolů, 100 úkolů)
@@ -81,18 +83,20 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
   - Notifikace při odemčení achievementu
   - Zobrazení achievementů v profilu
 
-- [ ] **#040** - Curriculum (předpřipravený obsah)
-  - Level 1: Jednoduché domácí úkoly (12 šablon)
-  - Level 2: Základní pravidla chování (10 šablon)
-  - Level 3: Lehké tresty (8 šablon)
-  - Level 4: Pokročilé úkoly (15 šablon)
-  - Level 5: Expertka — žádné šablony, vše vlastní
+- [ ] **#040** - Task Library — 500 úkolů
+  - Kategorie: Household (120), Protocol (80), BDSM (150), Mental (70), Physical (50), Creative (30)
+  - BDSM úkoly rozděleny: Soft, Medium, Hard
+  - Každý úkol má: kategorie, subcategory, difficulty, level_required, bdsm_intensity, preferences_required
+  - Filtrování podle household preferencí a levelu dominy
+  - Seed data: 500 úkolů do databáze
 
-- [ ] **#041** - Onboarding flow pro nové páry
-  - Úvodní kvíz (zkušenosti, hranice, preference)
-  - Doporučení startovního levelu na základě odpovědí
-  - Průvodce prvními kroky (guided tour)
-  - Automatické vytvoření prvního jednoduchého úkolu
+- [ ] **#041** - Onboarding flow s BDSM preferencemi
+  - Úvodní kvíz: zkušenosti, lifestyle focus (household/protocol/BDSM/mental/financial)
+  - BDSM intensity (none/soft/medium/hard)
+  - Hranice checklist (50+ položek: impact play, bondage, humiliation, atd.)
+  - Uložení do household.preferences (JSON)
+  - Doporučení startovního levelu
+  - Guided tour + automatický první úkol podle preferencí
 
 - [ ] **#042** - Dashboard s progression metrics
   - Aktuální level + progress bar
@@ -110,12 +114,43 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
 - [ ] **#044** - Motivační systém pro servanta
   - Vizualizace bodů za splněné úkoly
   - Streak counter (dny v řadě bez selhání)
+  - Penalizace zobrazení (ztracené body, důvody)
   - Žádné odměny — poslušnost JE odměna
   - Historie bodů a progressu
 
+- [ ] **#045** - BDSM Preference System
+  - Rozšíření onboarding kvízu o BDSM sekci
+  - Lifestyle focus (household, protocol, BDSM, mental, financial)
+  - BDSM intensity slider (none → hard)
+  - Hranice hard/soft limits (checklist 50+ položek)
+  - Uložení do households.preferences (JSON column)
+  - Filtrování task library podle preferencí
+
+- [ ] **#046** - Task Library Management API
+  - GET /api/task-library (s filtry: category, difficulty, bdsm_intensity, match_preferences)
+  - POST /api/task-library/custom (vytvoření vlastního úkolu dominou)
+  - PUT /api/task-library/{id} (editace vlastního úkolu)
+  - DELETE /api/task-library/{id} (smazání vlastního úkolu)
+  - Backend validace: pouze created_by = Auth::id() může editovat
+
+- [ ] **#047** - Negativní bodový systém (penalizace)
+  - Cron job kontrola: žádný splněný úkol 24h → -10 bodů
+  - Servant odmítne úkol → -25 bodů
+  - Nesplněný deadline → -15 bodů
+  - Porušení pravidla → -20 bodů (manuální trigger od dominy)
+  - Nerespekt/argument → -50 bodů (manuální trigger)
+  - Log všech penalizací do activity_log
+
+- [ ] **#048** - UI pro výběr úkolů z knihovny
+  - Stránka Task Library s filtry (kategorie, obtížnost, BDSM)
+  - Preview úkolu před přiřazením
+  - Tlačítko "Přiřadit servantovi" (vytvoří task z template)
+  - Možnost upravit před přiřazením
+  - Zobrazení vlastních úkolů dominy odděleně
+
 ### Původní gamifikace (nahrazeno Progression System)
-- [x] **#014** - DEPRECATED — nahrazeno #036-#044
-- [x] **#015** - DEPRECATED — nahrazeno #036-#044
+- [x] **#014** - DEPRECATED — nahrazeno #036-#048
+- [x] **#015** - DEPRECATED — nahrazeno #036-#048
 
 ---
 
@@ -175,9 +210,9 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
 
 ## 📊 Statistiky
 
-**Aktivní úkoly:** 35
+**Aktivní úkoly:** 40
 **High priority:** 4
-**Medium priority:** 13 (včetně 9 nových Progression System úkolů)
+**Medium priority:** 18 (13 Progression System úkolů)
 **Low priority:** 6
 **Tech debt:** 5
 **Nápady:** 5
@@ -186,6 +221,6 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
 
 ---
 
-**Další volné číslo:** #045
+**Další volné číslo:** #049
 
 **Poznámka:** Po dokončení úkolu přesuň záznam do `CHANGELOG.md`.
