@@ -56,15 +56,66 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
   - Emailové notifikace (on/off)
   - Theme (dark/light mode)
 
-### Gamifikace
-- [ ] **#014** - Achievement system
-  - Odznaky za splněné milníky
-  - Úrovně servanta (Beginner → Expert → Master)
-  - Leaderboard mezi servanty v panství
+### Progression System (Vzdělávací systém pro páry)
+- [ ] **#036** - Databázová migrace pro Progression System
+  - Tabulka `levels` (5 levelů dominy: Začátečnice → Expertka)
+  - Tabulka `achievements` (odznaky za milníky)
+  - Tabulka `user_achievements` (vazba user ↔ achievement)
+  - Tabulka `curriculum_templates` (předpřipravené úkoly/tresty/pravidla dle levelů)
+  - Tabulka `user_progress` (body, aktuální level, statistiky)
 
-- [ ] **#015** - Body a levely
-  - Vizualizace postupu k dalšímu levelu
-  - Odměny za dosažení úrovní
+- [ ] **#037** - Level systém pro dominu
+  - 5 levelů s různými oprávněními
+  - Automatické odemykání funkcí podle pokroku
+  - Progress bar k dalšímu levelu
+  - Backend validace oprávnění podle levelu
+
+- [ ] **#038** - Bodový systém
+  - Body za akce dominy (vytvoření úkolu: 5b, verifikace: 10b, aplikace trestu: 15b)
+  - Body za splněné úkoly servanta (podle obtížnosti: 5-25b)
+  - Automatický přepočet bodů → level up
+
+- [ ] **#039** - Achievement systém
+  - Definice achievementů (První úkol, První týden, 10 úkolů, 100 úkolů)
+  - Automatická detekce a odemykání achievementů
+  - Notifikace při odemčení achievementu
+  - Zobrazení achievementů v profilu
+
+- [ ] **#040** - Curriculum (předpřipravený obsah)
+  - Level 1: Jednoduché domácí úkoly (12 šablon)
+  - Level 2: Základní pravidla chování (10 šablon)
+  - Level 3: Lehké tresty (8 šablon)
+  - Level 4: Pokročilé úkoly (15 šablon)
+  - Level 5: Expertka — žádné šablony, vše vlastní
+
+- [ ] **#041** - Onboarding flow pro nové páry
+  - Úvodní kvíz (zkušenosti, hranice, preference)
+  - Doporučení startovního levelu na základě odpovědí
+  - Průvodce prvními kroky (guided tour)
+  - Automatické vytvoření prvního jednoduchého úkolu
+
+- [ ] **#042** - Dashboard s progression metrics
+  - Aktuální level + progress bar
+  - Počet bodů (celkem, k dalšímu levelu)
+  - Odemčené achievementy (ikony)
+  - Statistiky (úkolů zadáno, splněno, trestů aplikováno)
+  - Servant streak (dny v řadě bez selhání)
+
+- [ ] **#043** - Použití curriculum šablon
+  - Tlačítko "Použít šablonu" při vytváření úkolu/trestu
+  - Filtrování šablon podle aktuálního levelu
+  - Preview šablony před použitím
+  - Možnost upravit šablonu před vytvořením
+
+- [ ] **#044** - Motivační systém pro servanta
+  - Vizualizace bodů za splněné úkoly
+  - Streak counter (dny v řadě bez selhání)
+  - Žádné odměny — poslušnost JE odměna
+  - Historie bodů a progressu
+
+### Původní gamifikace (nahrazeno Progression System)
+- [x] **#014** - DEPRECATED — nahrazeno #036-#044
+- [x] **#015** - DEPRECATED — nahrazeno #036-#044
 
 ---
 
@@ -124,16 +175,17 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
 
 ## 📊 Statistiky
 
-**Aktivní úkoly:** 28
+**Aktivní úkoly:** 35
 **High priority:** 4
-**Medium priority:** 6
+**Medium priority:** 13 (včetně 9 nových Progression System úkolů)
 **Low priority:** 6
 **Tech debt:** 5
 **Nápady:** 5
+**Deprecated:** 2
 **Hotovo (v CHANGELOG.md):** 7
 
 ---
 
-**Další volné číslo:** #036
+**Další volné číslo:** #045
 
 **Poznámka:** Po dokončení úkolu přesuň záznam do `CHANGELOG.md`.
