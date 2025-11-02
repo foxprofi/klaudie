@@ -64,7 +64,7 @@
                         </select>
                     </div>
                     <div class="form-group" id="household-key-group">
-                        <label>Klíč domácnosti</label>
+                        <label>Klíč panství</label>
                         <input type="text" name="household_key" id="household-key-input" placeholder="UUID klíč od dominy">
                         <small>Tento klíč obdržíte od vaší dominy</small>
                     </div>
@@ -91,7 +91,7 @@
                 <aside class="sidebar">
                     <nav class="sidebar-nav">
                         <a href="#dashboard" class="nav-link active" data-view="dashboard" data-icon="⚡">Dashboard</a>
-                        <a href="#households" class="nav-link" data-view="households" data-icon="⛓️" id="nav-households">Domácnosti</a>
+                        <a href="#households" class="nav-link" data-view="households" data-icon="⛓️" id="nav-households">Panství</a>
                         <a href="#tasks" class="nav-link" data-view="tasks" data-icon="◆">Úkoly</a>
                         <a href="#punishments" class="nav-link" data-view="punishments" data-icon="⚔️" id="nav-punishments">Tresty</a>
                     </nav>
@@ -108,8 +108,8 @@
                     <!-- Households view -->
                     <div id="view-households" class="view">
                         <div class="view-header">
-                            <h2>Domácnosti</h2>
-                            <button id="btn-create-household" class="btn btn-primary hidden">+ Nová domácnost</button>
+                            <h2>Panství</h2>
+                            <button id="btn-create-household" class="btn btn-primary hidden">+ Nové panství</button>
                         </div>
                         <div id="households-list"></div>
                     </div>
@@ -139,7 +139,7 @@
         <!-- Create Household Modal -->
         <div id="modal-create-household" class="modal hidden">
             <div class="modal-header">
-                <h3 class="modal-title">Nová domácnost</h3>
+                <h3 class="modal-title">Nové panství</h3>
             </div>
             <form id="form-create-household">
                 <div class="form-group">

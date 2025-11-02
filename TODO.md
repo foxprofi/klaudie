@@ -10,11 +10,11 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
 
 ## 🔥 Priority (High)
 
-### Domácnosti
+### Panství
 - [ ] **#006** - Dashboard pro servanta
-  - Zobrazit informace o domácnosti, do které patří
+  - Zobrazit informace o panství, do kterého patří
   - Zobrazit jméno dominy
-  - Statistiky servanta v rámci domácnosti
+  - Statistiky servanta v rámci panství
 
 ### Úkoly
 - [ ] **#007** - Notifikace o nových úkolech
@@ -60,7 +60,7 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
 - [ ] **#014** - Achievement system
   - Odznaky za splněné milníky
   - Úrovně servanta (Beginner → Expert → Master)
-  - Leaderboard mezi servanty v domácnosti
+  - Leaderboard mezi servanty v panství
 
 - [ ] **#015** - Body a levely
   - Vizualizace postupu k dalšímu levelu
@@ -87,7 +87,7 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
   - Měsíční reporty
 
 - [ ] **#019** - Activity log
-  - Kompletní historie akcí v domácnosti
+  - Kompletní historie akcí v panství
   - Filtrovatelný log pro auditing
 
 ### Integrace
@@ -114,7 +114,7 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
 
 ## 💭 Nápady k diskusi
 
-- **#029** - Multi-household support pro servanta? (jeden servant může patřit do více domácností)
+- **#029** - Multi-household support pro servanta? (jeden servant může patřit do více panství)
 - **#030** - Video call integrace mezi dominou a servantem?
 - **#031** - AI asistent pro návrhy úkolů?
 - **#032** - Kalendář s naplánovanými úkoly?

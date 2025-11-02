@@ -229,7 +229,7 @@ const UI = {
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-value">${data.total_households}</div>
-                        <div class="stat-label">Domácnosti</div>
+                        <div class="stat-label">Panství</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-value">${data.total_servants}</div>
@@ -285,7 +285,7 @@ const UI = {
         const container = document.getElementById('households-list');
 
         if (households.length === 0) {
-            container.innerHTML = '<p class="text-center">Žádné domácnosti</p>';
+            container.innerHTML = '<p class="text-center">Žádná panství</p>';
             return;
         }
 
@@ -303,7 +303,7 @@ const UI = {
 
                         ${isDomina && household.servants && household.servants.length > 0 ? `
                             <div class="servants-section mt-3">
-                                <h4 style="margin-bottom: 1rem; font-size: 1.1rem; color: #c41e3a;">Servanti v domácnosti:</h4>
+                                <h4 style="margin-bottom: 1rem; font-size: 1.1rem; color: #c41e3a;">Servanti v panství:</h4>
                                 <div class="servants-list">
                                     ${household.servants.map(servant => `
                                         <div class="servant-item" style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; margin-bottom: 0.5rem; background: #1a1a1a; border: 1px solid #333; border-radius: 4px;">
@@ -326,7 +326,7 @@ const UI = {
                         ` : ''}
                         ${isDomina && (!household.servants || household.servants.length === 0) ? `
                             <div class="servants-section mt-3">
-                                <p style="color: #999; font-style: italic;">Zatím žádní servanti v této domácnosti</p>
+                                <p style="color: #999; font-style: italic;">Zatím žádní servanti v tomto panství</p>
                             </div>
                         ` : ''}
 
@@ -347,7 +347,7 @@ const UI = {
                                     </button>
                                 </div>
                                 <small style="display: block; margin-top: 0.5rem; color: #999;">
-                                    Tento klíč použijí servanti při registraci pro připojení k této domácnosti.
+                                    Tento klíč použijí servanti při registraci pro připojení k tomuto panství.
                                 </small>
                             </div>
                         ` : ''}
@@ -565,7 +565,7 @@ const App = {
                     UI.closeModal();
                     e.target.reset();
                     await this.loadHouseholds();
-                    alert('Domácnost vytvořena!');
+                    alert('Panství vytvořeno!');
                 }
             } catch (error) {
                 UI.showError('create-household-error', error.message);

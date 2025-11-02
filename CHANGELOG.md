@@ -14,34 +14,40 @@ Historie implementovaných funkcionalit a změn v projektu.
   - Frontend formulář s polem pro household key
   - Automatická validace existence klíče v databázi
 
-- **#002** - Automatické přiřazení servanta do domácnosti při registraci
+- **#002** - Automatické přiřazení servanta do panství při registraci
   - Servant je okamžitě přidán do `household_members` po registraci
-  - Vazba mezi servantem a domácností vytvořena atomicky
+  - Vazba mezi servantem a panstvím vytvořena atomicky
 
-- **#003** - Skrytí záložky "Domácnosti" pro servanta
-  - Frontend logika skrývá menu "Domácnosti" pro roli servant
+- **#003** - Skrytí záložky "Panství" pro servanta
+  - Frontend logika skrývá menu "Panství" pro roli servant
   - Servant vidí pouze: Dashboard, Úkoly, Moje tresty
 
 - **#004** - UUID klíč pro pozvání servantů
   - Databázová migrace `002_add_household_key.sql`
   - Sloupec `household_key` (CHAR(36), UNIQUE) v tabulce `households`
-  - Automatické generování UUID při vytvoření domácnosti
+  - Automatické generování UUID při vytvoření panství
   - Metody `findByKey()` a `generateUUID()` v Household modelu
 
 - **#005** - Zobrazení household klíče pro dominu
   - Backend endpoint `PUT /api/households/{id}/regenerate-key` pro regeneraci klíče
-  - Frontend zobrazení UUID klíče v detailu domácnosti (pouze pro dominu)
+  - Frontend zobrazení UUID klíče v detailu panství (pouze pro dominu)
   - Tlačítko pro kopírování klíče do schránky pomocí Clipboard API
   - Tlačítko pro regeneraci klíče s potvrzovacím dialogem
   - Metoda `regenerateKey()` v Household modelu
 
-- **#034** - Seznam servantů v domácnosti pro dominu
-  - Frontend načítání detailů domácností včetně seznamu servantů
+- **#034** - Seznam servantů v panství pro dominu
+  - Frontend načítání detailů panství včetně seznamu servantů
   - Zobrazení servantů s informacemi: jméno, email, datum připojení, status
   - Vizuální rozlišení aktivních a neaktivních servantů
   - Zpráva při prázdném seznamu servantů
 
 ### Changed
+- Přejmenování "Domácnosti" na "Panství" v celé aplikaci
+  - UI texty v HTML (menu, modaly, formuláře)
+  - JavaScript uživatelské zprávy a notifikace
+  - TODO.md a CHANGELOG.md aktualizovány
+  - Kód a proměnné ponechány jako `household` pro konzistenci
+
 - **#022** - Opraveny PHP 8.4 deprecated warnings v Model.php
   - Nullable type hint pro `$limit` parametr v metodě `findAll()`
 
