@@ -57,8 +57,6 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
   - Theme (dark/light mode)
 
 ### Progression System (Vzdělávací systém pro páry)
-- [x] **#036** - ✅ HOTOVO (2025-11-04) - Power-Based Progression System migrace
-
 - [ ] **#037** - Level systém pro dominu
   - 5 levelů s různými oprávněními (body vynásobeny 10)
   - Automatické odemykání funkcí podle pokroku
@@ -76,8 +74,6 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
   - Automatická detekce a odemykání achievementů
   - Notifikace při odemčení achievementu
   - Zobrazení achievementů v profilu
-
-- [x] **#040** - ✅ HOTOVO (2025-11-04) - Task Library 720 úkolů
 
 - [ ] **#041** - Onboarding flow s BDSM preferencemi
   - Úvodní kvíz: zkušenosti, lifestyle focus (household/protocol/BDSM/mental/financial)
@@ -176,8 +172,6 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
   - UI: Správa recurring tasks (seznam, vypnout/zapnout/smazat)
   - UI: Servant dashboard zobrazí 🔁 ikonu pro recurring instance
   - Validace: interval 2-30, end_date max 1 rok, pouze domina vytváří
-
-- [x] **#052** - ✅ HOTOVO (2025-11-04) - Punishment Library 100 trestů (seed data)
 
 ### Původní gamifikace (nahrazeno Progression System)
 - [x] **#014** - DEPRECATED — nahrazeno #036-#051
