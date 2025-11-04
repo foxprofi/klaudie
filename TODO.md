@@ -57,12 +57,6 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
   - Theme (dark/light mode)
 
 ### Progression System (Vzdělávací systém pro páry)
-- [ ] **#037** - Level systém pro dominu
-  - 5 levelů s různými oprávněními (body vynásobeny 10)
-  - Automatické odemykání funkcí podle pokroku
-  - Progress bar k dalšímu levelu
-  - Backend validace oprávnění podle levelu
-
 - [ ] **#038** - Bodový systém s negativní motivací
   - Pozitivní body za akce (vytvoření: 5b, verifikace: 10b, trest: 15b)
   - Pozitivní body za splněné úkoly (5-25b dle obtížnosti)
@@ -234,14 +228,14 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
 
 ## 📊 Statistiky
 
-**Aktivní úkoly:** 41
+**Aktivní úkoly:** 40
 **High priority:** 4
-**Medium priority:** 19 (14 Progression System úkolů včetně Fitness, Feminine Power, Recurring a Punishments)
+**Medium priority:** 18 (13 Progression System úkolů včetně Fitness, Feminine Power, Recurring a Punishments)
 **Low priority:** 6
 **Tech debt:** 5
 **Nápady:** 4
 **Deprecated:** 2
-**Hotovo (v CHANGELOG.md):** 10
+**Hotovo (v CHANGELOG.md):** 11
 
 ---
 

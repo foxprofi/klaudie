@@ -15,6 +15,7 @@ use Klaudie\Controllers\TaskController;
 use Klaudie\Controllers\PunishmentController;
 use Klaudie\Controllers\StatsController;
 use Klaudie\Controllers\InternalController;
+use Klaudie\Controllers\ProgressController;
 use Klaudie\Middleware\AuthMiddleware;
 use Klaudie\Middleware\DominaOnlyMiddleware;
 use Klaudie\Middleware\ServantOnlyMiddleware;
@@ -79,6 +80,9 @@ $router->group([AuthMiddleware::class], function ($router) {
     // Households (shared, both roles can view)
     $router->get('/api/households', [HouseholdController::class, 'index']);
     $router->get('/api/households/{id}', [HouseholdController::class, 'show']);
+
+    // Progress (shared, both roles can view)
+    $router->get('/api/households/{householdId}/progress', [ProgressController::class, 'getDominaProgress']);
 
     // Domina-only routes
     $router->group([DominaOnlyMiddleware::class], function ($router) {

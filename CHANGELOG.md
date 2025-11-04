@@ -19,6 +19,18 @@ Historie implementovaných funkcionalit a změn v projektu.
   - Migrace `003_progression_system.sql` s rollback podporou
   - Dokumentace v `PROGRESSION_SYSTEM.md` - kompletní Power-Based System v3
 
+- **#037** - Level systém pro dominu - Backend implementace
+  - Service `DominaProgressService` pro správu bodů a levelů
+  - Metoda `getLevelInfo()` - získání detailních info o levelu (current level, points, progress %, Power Index)
+  - Metoda `addPoints()` - přidání bodů s automatickým level-up detekováním
+  - Metoda `deductPoints()` - odečtení bodů (penalizace) s automatickým level-down
+  - Metoda `calculateLevel()` - výpočet levelu z bodů (5 levelů: Začátečnice, Učící se, Sebevědomá, Zkušená, Expertka)
+  - Metoda `getPowerIndex()` - čtení Power Index dominy
+  - API endpoint `GET /api/households/{householdId}/progress` - přístupný pro dominu i servanta
+  - Controller `ProgressController` s autentizací a autorizací
+  - Activity logging pro všechny změny bodů a levelů
+  - Otestováno na databázi (add/deduct points, level-up/down, persistence)
+
 - **#040** - Task Library - 720 úkolů
   - Household: 120 úkolů (cleaning, cooking, laundry, organization, maintenance, shopping)
   - Protocol: 60 úkolů (rituals, positions, addressing, communication, service, rules)
