@@ -6,6 +6,63 @@ Historie implementovaných funkcionalit a změn v projektu.
 
 ---
 
+## [Unreleased] - 2025-11-04
+
+### Added
+- **#036** - Power-Based Progression System - Databázová migrace
+  - Tabulka `domina_progress` - pouze domina má body, level, Power Index
+  - Tabulka `servant_stats` - servant má pouze read-only statistiky (bez bodů)
+  - View `v_servant_stats` pro bezpečné čtení servant statistik
+  - Power Index (0-100%) - 7-day rolling average aktivity dominy
+  - Severity multiplier pro tresty (1.0x až 2.5x podle Power Index)
+  - Level systém 1-5 pouze pro dominu (0-999, 1000-2999, 3000-5999, 6000-9999, 10000+)
+  - Migrace `003_progression_system.sql` s rollback podporou
+  - Dokumentace v `PROGRESSION_SYSTEM.md` - kompletní Power-Based System v3
+
+- **#040** - Task Library - 720 úkolů
+  - Household: 120 úkolů (cleaning, cooking, laundry, organization, maintenance, shopping)
+  - Protocol: 60 úkolů (rituals, positions, addressing, communication, service, rules)
+  - BDSM: 240 úkolů (bondage, impact, service, dominance, sensory, roleplay, humiliation, tease & denial, power exchange, mixed)
+  - Mental: 60 úkolů (reading, writing, learning, meditation, personal development)
+  - Fitness: 150 úkolů (cardio, strength, flexibility, yoga, sports, challenges)
+  - Physical: 30 úkolů (body modification, grooming)
+  - Creative: 30 úkolů (art, crafts, music, photography, video, writing)
+  - Feminine Power: 30 úkolů (empowerment activities)
+  - Seed soubory: 005-006 (initial 195), 007-014 (complete 720)
+  - Každý úkol má difficulty, level_required, bdsm_intensity, duration, instructions
+  - BDSM preferences pro filtrování podle household settings
+
+- **#052** - Punishment Library - 100 trestů
+  - Physical discipline: 20 trestů (impact play, flagged for automatic assignment)
+  - Mental punishments: 20 trestů (psychological, humiliation)
+  - Restrictive punishments: 20 trestů (denial, restrictions)
+  - Creative & household: 20 trestů (creative punishments, chores)
+  - Universal punishments: 20 trestů (fallback when all preferences selected)
+  - Seed soubor: 004_seed_punishment_library.sql
+  - Automatic punishment selection based on BDSM preferences
+  - Severity multipliers applied via Power Index
+  - Documented in `AUTOMATIC_PUNISHMENTS.md`
+
+### Documentation
+- Přidán `PROGRESSION_SYSTEM.md` v3 - Power-Based System
+  - Pouze domina má body a level
+  - Servant závislý na Power Index dominy
+  - Koeficient trestů podle aktivity dominy
+  - Kompletní bodový systém a penalizace
+
+- Přidán `RECURRING_TASKS.md` - dokumentace opakujících se úkolů
+  - Parent/child task pattern
+  - Cron job pro automatické generování instancí
+  - Periodicita: denně, každých X dní, týdně, měsíčně
+
+- Přidán `AUTOMATIC_PUNISHMENTS.md` - automatický trestací systém
+  - 2 tresty per penalty (physical + unpleasant)
+  - Selection algorithm based on preferences
+  - Power Index severity multipliers
+  - Safety notes a instructions
+
+---
+
 ## [Unreleased] - 2025-11-02
 
 ### Added

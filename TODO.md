@@ -57,14 +57,7 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
   - Theme (dark/light mode)
 
 ### Progression System (Vzdělávací systém pro páry)
-- [ ] **#036** - Databázová migrace pro Progression System
-  - Tabulka `levels` (5 levelů: 0-999, 1000-2999, 3000-5999, 6000-9999, 10000+)
-  - Tabulka `achievements` (odznaky za milníky)
-  - Tabulka `user_achievements` (vazba user ↔ achievement)
-  - Tabulka `task_library` (650 předpřipravených úkolů z 7 kategorií)
-  - Tabulka `user_progress` (body, aktuální level, statistiky, negativní penalizace)
-  - Tabulka `fitness_tracking` (denní záznamy váhy, měření, kroky, kalorie, foto)
-  - Sloupec `preferences` (JSON) v tabulce `households` včetně fitness_goals
+- [x] **#036** - ✅ HOTOVO (2025-11-04) - Power-Based Progression System migrace
 
 - [ ] **#037** - Level systém pro dominu
   - 5 levelů s různými oprávněními (body vynásobeny 10)
@@ -84,14 +77,7 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
   - Notifikace při odemčení achievementu
   - Zobrazení achievementů v profilu
 
-- [ ] **#040** - Task Library — 720 úkolů
-  - Kategorie: Household (120), Protocol (80), BDSM (150), Mental (70), Fitness (150), Physical (50), Creative (30), Feminine Power (70)
-  - BDSM úkoly: Soft (50), Medium (60), Hard (40)
-  - Fitness úkoly: Weight Management (30), Cardio (25), Strength (30), Flexibility (20), Diet (25), Measurements (10), Challenges (10)
-  - Feminine Power: Level 1-2 (20), Level 3-4 (30), Level 5 (20) — oblečení, make-up, styling
-  - Každý úkol: kategorie, subcategory, difficulty, level_required, bdsm_intensity, preferences_required
-  - Filtrování podle household preferencí a levelu dominy
-  - Seed data: 720 úkolů do databáze
+- [x] **#040** - ✅ HOTOVO (2025-11-04) - Task Library 720 úkolů
 
 - [ ] **#041** - Onboarding flow s BDSM preferencemi
   - Úvodní kvíz: zkušenosti, lifestyle focus (household/protocol/BDSM/mental/financial)
@@ -191,22 +177,7 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
   - UI: Servant dashboard zobrazí 🔁 ikonu pro recurring instance
   - Validace: interval 2-30, end_date max 1 rok, pouze domina vytváří
 
-- [ ] **#052** - Automatic Punishment System (automatické tresty)
-  - Tabulka `punishment_library` (100 předpřipravených trestů)
-  - Kategorie: physical (20), mental (20), restrictive (20), creative (20), universal (20)
-  - Automatické přiřazení 2 trestů při každé penalizaci (odečtení bodů)
-  - Trest 1: Physical discipline (impact play) — vždy, podle BDSM intensity
-  - Trest 2: Unpleasant punishment — z kategorií MIMO preference (hard limits nebo non-interests)
-  - Universal punishments jako fallback (pokud vše v preferencích)
-  - Deadline: 48 hodin (2 dny), 24 hodin pro nerespekt
-  - API: GET /api/punishment-library (seznam trestů)
-  - API: POST /api/punishment-library (domina vytvoří vlastní)
-  - API: GET /api/punishments (servant seznam přiřazených)
-  - API: PUT /api/punishments/{id}/complete (servant oznámí dokončení)
-  - API: PUT /api/punishments/{id}/verify (domina verifikuje)
-  - UI: Servant dashboard zobrazí přiřazené tresty s instrukcemi a safety notes
-  - UI: Domina dashboard pro verifikaci trestů
-  - Seed data: 100 trestů do databáze
+- [x] **#052** - ✅ HOTOVO (2025-11-04) - Punishment Library 100 trestů (seed data)
 
 ### Původní gamifikace (nahrazeno Progression System)
 - [x] **#014** - DEPRECATED — nahrazeno #036-#051
@@ -269,14 +240,14 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
 
 ## 📊 Statistiky
 
-**Aktivní úkoly:** 44
+**Aktivní úkoly:** 41
 **High priority:** 4
-**Medium priority:** 22 (17 Progression System úkolů včetně Fitness, Feminine Power, Recurring a Punishments)
+**Medium priority:** 19 (14 Progression System úkolů včetně Fitness, Feminine Power, Recurring a Punishments)
 **Low priority:** 6
 **Tech debt:** 5
 **Nápady:** 4
 **Deprecated:** 2
-**Hotovo (v CHANGELOG.md):** 7
+**Hotovo (v CHANGELOG.md):** 10
 
 ---
 
