@@ -8,9 +8,11 @@ namespace Klaudie\Controllers;
 use Klaudie\Models\Household;
 use Klaudie\Models\TaskAssignment;
 use Klaudie\Models\Punishment;
+use Klaudie\Models\Task;
 use Klaudie\Services\Auth;
 use Klaudie\Services\PointsService;
 use Klaudie\Services\DominaProgressService;
+use Klaudie\Services\AchievementService;
 use Klaudie\Response;
 
 /**
@@ -59,10 +61,36 @@ class StatsController
 
             // Get domina progress for this household (Power-Based System)
             $levelInfo = DominaProgressService::getLevelInfo(Auth::id(), $household['id']);
+
+            // Get unlocked achievements
+            $achievements = AchievementService::getUnlockedAchievements(Auth::id(), $household['id']);
+
+            // Get task statistics (created, verified by domina)
+            $taskModel = new Task();
+            $tasksCreated = $taskModel->getByHousehold($household['id']);
+            $tasksVerified = $assignmentModel->getByHousehold($household['id'], 'verified');
+
+            // Get punishment statistics
+            $punishmentModel = new Punishment();
+            $punishments = $punishmentModel->getByHousehold($household['id']);
+
             $stats['progress'][] = [
                 'household_id' => $household['id'],
                 'household_name' => $household['name'],
                 'level_info' => $levelInfo,
+                'achievements' => array_map(function($a) {
+                    return [
+                        'id' => $a['id'],
+                        'name' => $a['name'],
+                        'icon' => $a['icon'],
+                        'unlocked_at' => $a['unlocked_at'],
+                    ];
+                }, $achievements),
+                'statistics' => [
+                    'tasks_created' => count($tasksCreated),
+                    'tasks_verified' => count($tasksVerified),
+                    'punishments_issued' => count($punishments),
+                ],
             ];
         }
 

@@ -54,6 +54,15 @@ Historie implementovaných funkcionalit a změn v projektu.
   - Integrace do `TaskController::verify()` a `PunishmentController::create()`
   - Response obsahuje `new_achievements` pole s nově odemčenými achievementy
 
+- **#042** - Dashboard s progression metrics - Rozšíření domina dashboardu
+  - Rozšíření `StatsController::dominaDashboard()` o progression metrics
+  - Dashboard obsahuje pro každý household: `level_info`, `achievements`, `statistics`
+  - Level info: current_level, level_name, total_points, points_to_next_level, progress_percentage, power_index
+  - Achievements: seznam odemčených achievementů (id, name, icon, unlocked_at)
+  - Statistics: tasks_created, tasks_verified, punishments_issued
+  - API endpoint: `GET /api/stats/dashboard` (existující, rozšířen)
+  - Kompletní přehled progression systému v jednom API callu
+
 - **#040** - Task Library - 720 úkolů
   - Household: 120 úkolů (cleaning, cooking, laundry, organization, maintenance, shopping)
   - Protocol: 60 úkolů (rituals, positions, addressing, communication, service, rules)

@@ -65,13 +65,6 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
   - Doporučení startovního levelu
   - Guided tour + automatický první úkol podle preferencí
 
-- [ ] **#042** - Dashboard s progression metrics
-  - Aktuální level + progress bar
-  - Počet bodů (celkem, k dalšímu levelu)
-  - Odemčené achievementy (ikony)
-  - Statistiky (úkolů zadáno, splněno, trestů aplikováno)
-  - Servant streak (dny v řadě bez selhání)
-
 - [ ] **#043** - Použití curriculum šablon
   - Tlačítko "Použít šablonu" při vytváření úkolu/trestu
   - Filtrování šablon podle aktuálního levelu
@@ -216,14 +209,14 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
 
 ## 📊 Statistiky
 
-**Aktivní úkoly:** 38
+**Aktivní úkoly:** 37
 **High priority:** 4
-**Medium priority:** 16 (11 Progression System úkolů včetně Fitness, Feminine Power, Recurring a Punishments)
+**Medium priority:** 15 (10 Progression System úkolů včetně Fitness, Feminine Power, Recurring a Punishments)
 **Low priority:** 6
 **Tech debt:** 5
 **Nápady:** 4
 **Deprecated:** 2
-**Hotovo (v CHANGELOG.md):** 13
+**Hotovo (v CHANGELOG.md):** 14
 
 ---
 
