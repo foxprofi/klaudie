@@ -595,6 +595,74 @@ const UI = {
 
         container.innerHTML = html;
     },
+
+    renderAchievements(achievements, filteredCategory = 'all') {
+        const container = document.getElementById('achievements-list');
+
+        if (!achievements || achievements.length === 0) {
+            container.innerHTML = '<p class="text-center">Žádné achievementy</p>';
+            return;
+        }
+
+        // Filter by category
+        let filtered = achievements;
+        if (filteredCategory !== 'all') {
+            filtered = achievements.filter(ach => ach.category === filteredCategory);
+        }
+
+        // Separate locked and unlocked
+        const unlocked = filtered.filter(ach => ach.is_unlocked);
+        const locked = filtered.filter(ach => !ach.is_unlocked);
+
+        let html = '';
+
+        if (unlocked.length > 0) {
+            html += '<h3 class="achievements-section-title">Odemčené</h3><div class="achievements-grid">';
+            unlocked.forEach(ach => {
+                html += `
+                    <div class="achievement-card unlocked">
+                        <div class="achievement-icon">${ach.icon || '⭐'}</div>
+                        <div class="achievement-content">
+                            <h4 class="achievement-name">${ach.name}</h4>
+                            <p class="achievement-description">${ach.description}</p>
+                            ${ach.points_reward ? `<span class="achievement-points">+${ach.points_reward}b</span>` : ''}
+                            ${ach.unlocked_at ? `<span class="achievement-date">Odemčeno: ${new Date(ach.unlocked_at).toLocaleDateString('cs')}</span>` : ''}
+                        </div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+        }
+
+        if (locked.length > 0) {
+            html += '<h3 class="achievements-section-title">Zamčené</h3><div class="achievements-grid">';
+            locked.forEach(ach => {
+                const progress = ach.progress || 0;
+                const requirement = ach.requirement_value || 100;
+                const progressPercentage = Math.min((progress / requirement) * 100, 100);
+
+                html += `
+                    <div class="achievement-card locked">
+                        <div class="achievement-icon locked-icon">${ach.icon || '🔒'}</div>
+                        <div class="achievement-content">
+                            <h4 class="achievement-name">${ach.name}</h4>
+                            <p class="achievement-description">${ach.description}</p>
+                            ${ach.points_reward ? `<span class="achievement-points">+${ach.points_reward}b</span>` : ''}
+                            <div class="achievement-progress">
+                                <div class="progress-bar-small">
+                                    <div class="progress-fill-small" style="width: ${progressPercentage}%"></div>
+                                </div>
+                                <span class="progress-text">${progress} / ${requirement}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+        }
+
+        container.innerHTML = html;
+    },
 };
 
 // Application
@@ -705,10 +773,14 @@ const App = {
             document.getElementById('btn-create-household').classList.remove('hidden');
         } else {
             document.getElementById('nav-punishments').textContent = 'Moje tresty';
-            // Hide households menu for servants
+            // Hide households and achievements menu for servants
             const householdsNav = document.getElementById('nav-households');
             if (householdsNav) {
                 householdsNav.style.display = 'none';
+            }
+            const achievementsNav = document.getElementById('nav-achievements');
+            if (achievementsNav) {
+                achievementsNav.style.display = 'none';
             }
         }
 
@@ -834,6 +906,9 @@ const App = {
             case 'tasks':
                 await this.loadTasks();
                 break;
+            case 'achievements':
+                await this.loadAchievements();
+                break;
             case 'punishments':
                 await this.loadPunishments();
                 break;
@@ -879,6 +954,41 @@ const App = {
 
     async loadPunishments() {
         // Implementation for punishments view
+    },
+
+    async loadAchievements(householdId = null) {
+        try {
+            // Get first household if not specified
+            if (!householdId && State.user.role === 'domina') {
+                const householdsResp = await API.getHouseholds();
+                if (householdsResp.success && householdsResp.data.length > 0) {
+                    householdId = householdsResp.data[0].id;
+                }
+            }
+
+            if (!householdId) {
+                document.getElementById('achievements-list').innerHTML = '<p class="text-center">Nejprve vytvořte panství</p>';
+                return;
+            }
+
+            const response = await API.getAchievements(householdId);
+            if (response.success) {
+                State.currentAchievements = response.data;
+                UI.renderAchievements(response.data);
+
+                // Setup filter buttons
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                        e.target.classList.add('active');
+                        const category = e.target.dataset.category;
+                        UI.renderAchievements(State.currentAchievements, category);
+                    });
+                });
+            }
+        } catch (error) {
+            console.error('Failed to load achievements:', error);
+        }
     },
 
     async completeTask(assignmentId) {

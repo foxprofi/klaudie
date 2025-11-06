@@ -93,6 +93,7 @@
                         <a href="#dashboard" class="nav-link active" data-view="dashboard" data-icon="⚡">Dashboard</a>
                         <a href="#households" class="nav-link" data-view="households" data-icon="⛓️" id="nav-households">Panství</a>
                         <a href="#tasks" class="nav-link" data-view="tasks" data-icon="◆">Úkoly</a>
+                        <a href="#achievements" class="nav-link" data-view="achievements" data-icon="⭐" id="nav-achievements">Achievementy</a>
                         <a href="#punishments" class="nav-link" data-view="punishments" data-icon="⚔️" id="nav-punishments">Tresty</a>
                     </nav>
                 </aside>
@@ -120,6 +121,22 @@
                             <h2>Úkoly</h2>
                         </div>
                         <div id="tasks-list"></div>
+                    </div>
+
+                    <!-- Achievements view -->
+                    <div id="view-achievements" class="view">
+                        <div class="view-header">
+                            <h2>Achievementy</h2>
+                            <div class="achievement-filters">
+                                <button class="filter-btn active" data-category="all">Všechny</button>
+                                <button class="filter-btn" data-category="tasks">Úkoly</button>
+                                <button class="filter-btn" data-category="punishments">Tresty</button>
+                                <button class="filter-btn" data-category="streak">Série</button>
+                                <button class="filter-btn" data-category="level">Level</button>
+                                <button class="filter-btn" data-category="power">Power</button>
+                            </div>
+                        </div>
+                        <div id="achievements-list"></div>
                     </div>
 
                     <!-- Punishments view -->
