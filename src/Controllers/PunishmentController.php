@@ -11,6 +11,7 @@ use Klaudie\Services\Auth;
 use Klaudie\Services\ActivityLogger;
 use Klaudie\Services\PointsService;
 use Klaudie\Services\DominaProgressService;
+use Klaudie\Services\AchievementService;
 use Klaudie\Response;
 
 /**
@@ -86,7 +87,13 @@ class PunishmentController
             "Issued punishment: {$data['reason']} (severity: {$severity})"
         );
 
-        return Response::success(['id' => $punishmentId], 'Punishment issued', 201);
+        // Check achievements
+        $newAchievements = AchievementService::checkAchievements(Auth::id(), $householdId);
+
+        return Response::success([
+            'id' => $punishmentId,
+            'new_achievements' => $newAchievements
+        ], 'Punishment issued', 201);
     }
 
     /**

@@ -57,12 +57,6 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
   - Theme (dark/light mode)
 
 ### Progression System (Vzdělávací systém pro páry)
-- [ ] **#039** - Achievement systém
-  - Definice achievementů (První úkol, První týden, 10 úkolů, 100 úkolů)
-  - Automatická detekce a odemykání achievementů
-  - Notifikace při odemčení achievementu
-  - Zobrazení achievementů v profilu
-
 - [ ] **#041** - Onboarding flow s BDSM preferencemi
   - Úvodní kvíz: zkušenosti, lifestyle focus (household/protocol/BDSM/mental/financial)
   - BDSM intensity (none/soft/medium/hard)
@@ -222,14 +216,14 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
 
 ## 📊 Statistiky
 
-**Aktivní úkoly:** 39
+**Aktivní úkoly:** 38
 **High priority:** 4
-**Medium priority:** 17 (12 Progression System úkolů včetně Fitness, Feminine Power, Recurring a Punishments)
+**Medium priority:** 16 (11 Progression System úkolů včetně Fitness, Feminine Power, Recurring a Punishments)
 **Low priority:** 6
 **Tech debt:** 5
 **Nápady:** 4
 **Deprecated:** 2
-**Hotovo (v CHANGELOG.md):** 12
+**Hotovo (v CHANGELOG.md):** 13
 
 ---
 

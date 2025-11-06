@@ -16,6 +16,7 @@ use Klaudie\Controllers\PunishmentController;
 use Klaudie\Controllers\StatsController;
 use Klaudie\Controllers\InternalController;
 use Klaudie\Controllers\ProgressController;
+use Klaudie\Controllers\AchievementController;
 use Klaudie\Middleware\AuthMiddleware;
 use Klaudie\Middleware\DominaOnlyMiddleware;
 use Klaudie\Middleware\ServantOnlyMiddleware;
@@ -108,6 +109,10 @@ $router->group([AuthMiddleware::class], function ($router) {
 
         // Servant statistics
         $router->get('/api/stats/servant/{servantId}/household/{householdId}', [StatsController::class, 'servantStats']);
+
+        // Achievements (domina only)
+        $router->get('/api/households/{householdId}/achievements', [AchievementController::class, 'index']);
+        $router->get('/api/households/{householdId}/achievements/unlocked', [AchievementController::class, 'unlocked']);
     });
 
     // Servant-only routes

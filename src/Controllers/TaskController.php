@@ -12,6 +12,7 @@ use Klaudie\Services\Auth;
 use Klaudie\Services\ActivityLogger;
 use Klaudie\Services\PointsService;
 use Klaudie\Services\DominaProgressService;
+use Klaudie\Services\AchievementService;
 use Klaudie\Response;
 
 /**
@@ -247,7 +248,12 @@ class TaskController
                 'difficulty_bonus' => $bonusPoints,
             ]);
 
-            return Response::success(null, 'Task verified and points awarded');
+            // Check achievements
+            $newAchievements = AchievementService::checkAchievements(Auth::id(), $assignment['household_id']);
+
+            return Response::success([
+                'new_achievements' => $newAchievements
+            ], 'Task verified and points awarded');
         } else {
             $assignmentModel->markFailed($assignmentId, $data['notes'] ?? null);
 

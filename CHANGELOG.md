@@ -42,6 +42,18 @@ Historie implementovaných funkcionalit a změn v projektu.
   - Automatický přepočet level up/down při změně bodů
   - Otestováno: 550b → 555b (+5b task) → 580b (+25b verify) → 595b (+15b punishment)
 
+- **#039** - Achievement systém - Backend implementace
+  - Databázová migrace: tabulka `domina_achievements` (many-to-many vztah domina - achievements)
+  - Service `AchievementService` pro automatickou detekci a odemykání achievementů
+  - Typy requirementů: `task_verified_count`, `punishment_issued_count`, `points_reached`, `level_reached`, `power_index_days`
+  - Automatická kontrola achievementů po verifikaci úkolu a udělení trestu
+  - Odměna bodů za odemčení achievementu (pokud má achievement `points_reward`)
+  - Activity logging pro každé odemčení
+  - API endpointy: `GET /api/households/{id}/achievements` (vše), `GET /api/households/{id}/achievements/unlocked` (pouze odemčené)
+  - Controller `AchievementController` s autorizací (pouze domina)
+  - Integrace do `TaskController::verify()` a `PunishmentController::create()`
+  - Response obsahuje `new_achievements` pole s nově odemčenými achievementy
+
 - **#040** - Task Library - 720 úkolů
   - Household: 120 úkolů (cleaning, cooking, laundry, organization, maintenance, shopping)
   - Protocol: 60 úkolů (rituals, positions, addressing, communication, service, rules)
