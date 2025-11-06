@@ -17,6 +17,7 @@ use Klaudie\Controllers\StatsController;
 use Klaudie\Controllers\InternalController;
 use Klaudie\Controllers\ProgressController;
 use Klaudie\Controllers\AchievementController;
+use Klaudie\Controllers\PenaltyController;
 use Klaudie\Middleware\AuthMiddleware;
 use Klaudie\Middleware\DominaOnlyMiddleware;
 use Klaudie\Middleware\ServantOnlyMiddleware;
@@ -113,6 +114,11 @@ $router->group([AuthMiddleware::class], function ($router) {
         // Achievements (domina only)
         $router->get('/api/households/{householdId}/achievements', [AchievementController::class, 'index']);
         $router->get('/api/households/{householdId}/achievements/unlocked', [AchievementController::class, 'unlocked']);
+
+        // Penalties (domina only)
+        $router->post('/api/households/{householdId}/penalties/rule-violation', [PenaltyController::class, 'ruleViolation']);
+        $router->post('/api/households/{householdId}/penalties/disrespect', [PenaltyController::class, 'disrespect']);
+        $router->get('/api/households/{householdId}/penalties/stats', [PenaltyController::class, 'stats']);
     });
 
     // Servant-only routes
@@ -120,6 +126,7 @@ $router->group([AuthMiddleware::class], function ($router) {
         // My assignments
         $router->get('/api/assignments/my', [TaskController::class, 'myAssignments']);
         $router->put('/api/assignments/{assignmentId}/complete', [TaskController::class, 'complete']);
+        $router->put('/api/assignments/{assignmentId}/reject', [TaskController::class, 'reject']);
 
         // My punishments
         $router->get('/api/my-punishments', [PunishmentController::class, 'myPunishments']);

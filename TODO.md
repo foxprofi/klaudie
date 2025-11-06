@@ -93,14 +93,6 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
   - DELETE /api/task-library/{id} (smazání vlastního úkolu)
   - Backend validace: pouze created_by = Auth::id() může editovat
 
-- [ ] **#047** - Negativní bodový systém (penalizace)
-  - Cron job kontrola: žádný splněný úkol 24h → -10 bodů
-  - Servant odmítne úkol → -25 bodů
-  - Nesplněný deadline → -15 bodů
-  - Porušení pravidla → -20 bodů (manuální trigger od dominy)
-  - Nerespekt/argument → -50 bodů (manuální trigger)
-  - Log všech penalizací do activity_log
-
 - [ ] **#048** - UI pro výběr úkolů z knihovny
   - Stránka Task Library s filtry (kategorie, obtížnost, BDSM)
   - Preview úkolu před přiřazením
@@ -209,14 +201,14 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
 
 ## 📊 Statistiky
 
-**Aktivní úkoly:** 37
+**Aktivní úkoly:** 36
 **High priority:** 4
-**Medium priority:** 15 (10 Progression System úkolů včetně Fitness, Feminine Power, Recurring a Punishments)
+**Medium priority:** 14 (9 Progression System úkolů včetně Fitness, Feminine Power, Recurring)
 **Low priority:** 6
 **Tech debt:** 5
 **Nápady:** 4
 **Deprecated:** 2
-**Hotovo (v CHANGELOG.md):** 14
+**Hotovo (v CHANGELOG.md):** 15
 
 ---
 

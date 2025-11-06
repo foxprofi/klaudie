@@ -87,6 +87,20 @@ Historie implementovaných funkcionalit a změn v projektu.
   - Severity multipliers applied via Power Index
   - Documented in `AUTOMATIC_PUNISHMENTS.md`
 
+- **#047** - Negativní bodový systém (penalizace)
+  - Service `PenaltyService` pro automatické a manuální penalizace
+  - Automatická penalizace: žádný splněný úkol 24h (-10b), odmítnutí úkolu (-25b), nesplněný deadline (-15b)
+  - Manuální penalizace: porušení pravidla (-20b), nerespekt/argument (-50b)
+  - Cron job `bin/cron-penalties.php` pro denní kontrolu (inaktivita, deadlines)
+  - Controller `PenaltyController` s API endpointy pro manuální penalizace
+  - API: POST /api/households/{id}/penalties/rule-violation
+  - API: POST /api/households/{id}/penalties/disrespect
+  - API: GET /api/households/{id}/penalties/stats (statistiky penalizací)
+  - TaskController: přidána metoda `reject()` pro odmítnutí úkolu servantem
+  - API: PUT /api/assignments/{id}/reject (servant-only)
+  - Všechny penalizace logují do activity_log s detailními metadaty
+  - Penalizace odečítá body domině (Power-Based System)
+
 ### Documentation
 - Přidán `PROGRESSION_SYSTEM.md` v3 - Power-Based System
   - Pouze domina má body a level

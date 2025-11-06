@@ -13,6 +13,7 @@ use Klaudie\Services\ActivityLogger;
 use Klaudie\Services\PointsService;
 use Klaudie\Services\DominaProgressService;
 use Klaudie\Services\AchievementService;
+use Klaudie\Services\PenaltyService;
 use Klaudie\Response;
 
 /**
@@ -189,6 +190,58 @@ class TaskController
         ]);
 
         return Response::success(null, 'Task marked as completed');
+    }
+
+    /**
+     * PUT /api/assignments/{assignmentId}/reject
+     * Reject task assignment (Servant)
+     * Applies -25 points penalty to domina
+     */
+    public function reject(int $assignmentId): string
+    {
+        $assignmentModel = new TaskAssignment();
+        $assignment = $assignmentModel->find($assignmentId);
+
+        if (!$assignment) {
+            return Response::notFound('Assignment not found');
+        }
+
+        if ($assignment['servant_id'] != Auth::id()) {
+            return Response::forbidden();
+        }
+
+        $data = json_decode(file_get_contents('php://input'), true);
+        $reason = $data['reason'] ?? 'No reason provided';
+
+        // Get household details
+        $householdModel = new Household();
+        $household = $householdModel->find($assignment['household_id']);
+
+        if (!$household) {
+            return Response::error('Household not found');
+        }
+
+        // Mark assignment as rejected
+        $assignmentModel->update($assignmentId, [
+            'status' => 'rejected',
+            'notes' => $reason,
+        ]);
+
+        // Apply penalty to domina
+        PenaltyService::applyTaskRejectionPenalty(
+            $household['domina_id'],
+            $assignment['household_id'],
+            Auth::id(),
+            $assignment['task_id']
+        );
+
+        ActivityLogger::log(Auth::id(), $assignment['household_id'], 'task.reject', [
+            'assignment_id' => $assignmentId,
+            'task_id' => $assignment['task_id'],
+            'reason' => $reason,
+        ]);
+
+        return Response::success(null, 'Task rejected. Penalty applied to domina.');
     }
 
     /**
