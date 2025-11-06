@@ -113,6 +113,17 @@ Historie implementovaných funkcionalit a změn v projektu.
   - Soubory: public/js/app.js, public/css/style.css
   - Přidány API metody: getProgress(), getAchievements(), getUnlockedAchievements()
 
+- **#054** - Frontend: Servant dashboard s progression view
+  - Servant vidí level dominy (ne vlastní) - Power-Based System
+  - Zobrazení domina levelu s barevným badge (level 1-5)
+  - Zobrazení Power Index dominy s color coding (high/medium/low)
+  - Task statistiky servanta (pending, completed, failed)
+  - Punishment statistiky servanta (total, active, resolved)
+  - Responsivní design - reused CSS z #053
+  - API integrace: používá existující GET /api/stats/dashboard endpoint
+  - Backend již poskytoval domina_level v servant response
+  - Soubor: public/js/app.js (servant dashboard rendering)
+
 ### Documentation
 - Přidán `PROGRESSION_SYSTEM.md` v3 - Power-Based System
   - Pouze domina má body a level

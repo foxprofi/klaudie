@@ -354,37 +354,102 @@ const UI = {
 
             container.innerHTML = html;
         } else {
-            // Servant dashboard
+            // Servant dashboard - shows domina's level and servant's stats
             let html = '';
             data.households.forEach(item => {
                 const household = item.household;
-                const level = item.level;
-                const tasks = item.tasks;
+                const dominaLevel = item.domina_level;  // Servant sees domina's level
+                const tasks = item.tasks || {};
+                const punishments = item.punishments || {};
 
                 html += `
-                    <div class="card">
+                    <div class="card progression-card">
                         <div class="card-header">
                             <div class="card-title">${household.name}</div>
                         </div>
                         <div class="card-body">
-                            <div class="level-info">
-                                <strong>Level ${level.current_level}</strong> - ${level.total_points} bodů
-                                <div class="level-bar">
-                                    <div class="level-progress" style="width: ${level.progress_percentage}%"></div>
+                            <!-- Domina's Level Info (servant view) -->
+                            <div class="level-section">
+                                <h4 class="section-title">
+                                    <span class="section-icon">⚡</span>
+                                    Level Dominy
+                                </h4>
+                                <div class="level-header">
+                                    <div class="level-badge level-${dominaLevel.current_level}">
+                                        <span class="level-number">Level ${dominaLevel.current_level}</span>
+                                        <span class="level-name">${dominaLevel.level_name}</span>
+                                    </div>
+                                    <div class="power-index">
+                                        <span class="power-index-label">Power Index</span>
+                                        <span class="power-index-value ${dominaLevel.power_index >= 70 ? 'high' : dominaLevel.power_index >= 40 ? 'medium' : 'low'}">
+                                            ${dominaLevel.power_index.toFixed(1)}%
+                                        </span>
+                                    </div>
                                 </div>
-                                <small>${level.points_to_next_level} bodů do dalšího levelu</small>
+
+                                <div class="points-info">
+                                    <span class="points-current">${dominaLevel.total_points} bodů</span>
+                                    <span class="points-next">${dominaLevel.points_to_next_level} do dalšího levelu</span>
+                                </div>
+
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: ${dominaLevel.progress_percentage}%">
+                                        <span class="progress-percentage">${dominaLevel.progress_percentage.toFixed(1)}%</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="stats-grid">
-                                <div>
-                                    <strong>${tasks.completed || 0}</strong> dokončeno
-                                </div>
-                                <div>
-                                    <strong>${tasks.pending || 0}</strong> čekající
-                                </div>
-                                <div>
-                                    <strong>${tasks.failed || 0}</strong> selhání
+
+                            <!-- Servant's Task Statistics -->
+                            <div class="statistics-section">
+                                <h4 class="section-title">
+                                    <span class="section-icon">◆</span>
+                                    Moje Úkoly
+                                </h4>
+                                <div class="stats-grid">
+                                    <div class="stat-item">
+                                        <span class="stat-icon">⏳</span>
+                                        <span class="stat-value">${tasks.pending || 0}</span>
+                                        <span class="stat-label">Čekající</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-icon">✓</span>
+                                        <span class="stat-value">${tasks.completed || 0}</span>
+                                        <span class="stat-label">Dokončeno</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-icon">✗</span>
+                                        <span class="stat-value">${tasks.failed || 0}</span>
+                                        <span class="stat-label">Selhání</span>
+                                    </div>
                                 </div>
                             </div>
+
+                            <!-- Servant's Punishment Statistics -->
+                            ${punishments.total !== undefined ? `
+                                <div class="statistics-section">
+                                    <h4 class="section-title">
+                                        <span class="section-icon">⚔️</span>
+                                        Moje Tresty
+                                    </h4>
+                                    <div class="stats-grid">
+                                        <div class="stat-item">
+                                            <span class="stat-icon">📋</span>
+                                            <span class="stat-value">${punishments.total || 0}</span>
+                                            <span class="stat-label">Celkem</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <span class="stat-icon">⏰</span>
+                                            <span class="stat-value">${punishments.active || 0}</span>
+                                            <span class="stat-label">Aktivní</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <span class="stat-icon">✓</span>
+                                            <span class="stat-value">${punishments.resolved || 0}</span>
+                                            <span class="stat-label">Vyřešeno</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            ` : ''}
                         </div>
                     </div>
                 `;
