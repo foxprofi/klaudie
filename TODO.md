@@ -10,135 +10,181 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
 
 ## 🔥 Priority (High)
 
-### Panství
-- [ ] **#006** - Dashboard pro servanta
-  - Zobrazit informace o panství, do kterého patří
-  - Zobrazit jméno dominy
-  - Statistiky servanta v rámci panství
+### Frontend pro Progression System (KRITICKÉ - backend hotový, UI chybí)
 
-### Úkoly
-- [ ] **#007** - Notifikace o nových úkolech
-  - Real-time notifikace pro servanta
-  - Badge s počtem nedokončených úkolů
+- [ ] **#053** - Frontend: Dashboard pro dominu s progression metrics (BACKEND + FRONTEND)
+  - Zobrazení level info (current level, level name, points, progress bar, Power Index)
+  - Seznam odemčených achievementů s ikonami
+  - Statistiky (tasks created, verified, punishments issued)
+  - Integrace s existujícím API endpoint GET /api/stats/dashboard
+  - Responsivní design s BDSM estetikou
 
-- [ ] **#008** - Filtrování úkolů
-  - Podle statusu (pending, completed, verified)
-  - Podle obtížnosti
-  - Podle data vytvoření
+- [ ] **#054** - Frontend: Dashboard pro servanta s progression metrics (BACKEND + FRONTEND)
+  - Zobrazení domina level (servant vidí level dominy, ne svůj)
+  - Statistiky úkolů servanta (pending, completed, verified)
+  - Statistiky trestů servanta
+  - Integrace s existujícím API endpoint GET /api/stats/dashboard
+  - Responsivní design
 
-### Tresty
-- [ ] **#009** - Detailní zobrazení trestu
-  - Popis důvodu trestu
-  - Historie trestů servanta
-  - Možnost servanta vyjádřit se k trestu
+- [ ] **#055** - Frontend: Achievement systém UI (BACKEND + FRONTEND)
+  - Stránka se seznamem všech achievementů (locked/unlocked)
+  - Achievement card s ikonou, názvem, popisem, progress barem
+  - Filtrování podle kategorie (tasks, punishments, streak, level, power)
+  - Notifikace při odemčení nového achievementu (toast/modal)
+  - API: GET /api/households/{id}/achievements (již existuje)
+
+- [ ] **#056** - Frontend: Task Library browser (BACKEND + FRONTEND)
+  - Procházení 720 úkolů z knihovny
+  - Filtry: kategorie (household, protocol, BDSM, mental, fitness), obtížnost, level, BDSM intensity
+  - Preview úkolu (title, description, duration, difficulty, points_reward)
+  - Tlačítko "Přiřadit servantovi" (vytvoří task z template)
+  - Možnost upravit úkol před přiřazením
+  - Backend API: GET /api/task-library (nový endpoint)
+
+- [ ] **#057** - Frontend: Punishment Library browser (BACKEND + FRONTEND)
+  - Procházení 100 trestů z knihovny
+  - Filtry: kategorie (physical, mental, restrictive, creative, universal), severity
+  - Preview trestu (title, description, severity, BDSM flags)
+  - Tlačítko "Udělit trest servantovi"
+  - Backend API: GET /api/punishment-library (nový endpoint)
+
+- [ ] **#058** - Frontend: Manuální penalizace UI pro dominu (BACKEND + FRONTEND)
+  - Formulář pro udělení penalizace servantovi
+  - Výběr typu penalizace (rule violation -20b, disrespect -50b)
+  - Povinné pole "důvod" (min 3 znaky)
+  - Zobrazení statistik penalizací (GET /api/households/{id}/penalties/stats)
+  - API endpointy již existují: POST /api/households/{id}/penalties/rule-violation, POST /api/households/{id}/penalties/disrespect
+
+- [ ] **#059** - Frontend: Odmítnutí úkolu (servant UI) (BACKEND + FRONTEND)
+  - Tlačítko "Odmítnout úkol" v task assignment detailu
+  - Modal s polem pro důvod odmítnutí
+  - Varování o penalizaci pro dominu (-25b)
+  - API endpoint již existuje: PUT /api/assignments/{id}/reject
+
+### Ostatní High Priority
+
+- [ ] **#007** - Notifikace o nových úkolech (BACKEND + FRONTEND)
+  - Backend: WebSocket/Server-Sent Events pro real-time notifikace
+  - Frontend: Toast notifikace, badge s počtem nedokončených úkolů
+
+- [ ] **#008** - Filtrování úkolů (FRONTEND)
+  - Frontend: Filtry podle statusu (pending, completed, verified)
+  - Frontend: Filtry podle obtížnosti
+  - Frontend: Filtry podle data vytvoření
+
+- [ ] **#009** - Detailní zobrazení trestu (FRONTEND)
+  - Frontend: Modal s detailem trestu (popis, důvod, severity)
+  - Frontend: Historie trestů servanta
+  - Frontend: Možnost servanta přidat komentář k trestu (nový backend endpoint)
 
 ---
 
 ## 🎯 Střední priorita (Medium)
 
 ### Autentizace
-- [ ] **#010** - Reset hesla
-  - Email s resetovacím linkem
-  - Formulář pro změnu hesla
+- [ ] **#010** - Reset hesla (BACKEND + FRONTEND)
+  - Backend: Endpoint pro žádost o reset, generování tokenu, email
+  - Backend: Endpoint pro změnu hesla s tokenem
+  - Frontend: Formulář "Zapomenuté heslo"
+  - Frontend: Stránka pro zadání nového hesla s tokenem
 
-- [ ] **#011** - Two-factor authentication (2FA)
-  - SMS nebo TOTP (Google Authenticator)
+- [ ] **#011** - Two-factor authentication (2FA) (BACKEND + FRONTEND)
+  - Backend: TOTP generování, verifikace (Google Authenticator)
+  - Backend: SMS integrace (Twilio)
+  - Frontend: Nastavení 2FA v profilu
+  - Frontend: 2FA prompt při přihlášení
   - Povinná pro roli domina
 
 ### Profil
-- [ ] **#012** - Nastavení profilu
-  - Změna jména
-  - Nahrání profilového obrázku
-  - Osobní poznámky
+- [ ] **#012** - Nastavení profilu (BACKEND + FRONTEND)
+  - Backend: Endpoint pro update profilu (jméno, bio, avatar)
+  - Backend: Upload a resize profilového obrázku
+  - Frontend: Formulář pro editaci profilu
+  - Frontend: Upload interface pro avatar
+  - Frontend: Preview změn před uložením
 
-- [ ] **#013** - Preferenční nastavení
-  - Jazyk rozhraní (CZ/EN)
-  - Emailové notifikace (on/off)
-  - Theme (dark/light mode)
+- [ ] **#013** - Preferenční nastavení (BACKEND + FRONTEND)
+  - Backend: Endpoint pro update preferencí (language, notifications, theme)
+  - Backend: Uložení do users.preferences (JSON column)
+  - Frontend: Settings page s toggle switches
+  - Frontend: Language selector (CZ/EN)
+  - Frontend: Email notification preferences
+  - Frontend: Dark/light theme toggle
 
 ### Progression System (Vzdělávací systém pro páry)
-- [ ] **#041** - Onboarding flow s BDSM preferencemi
-  - Úvodní kvíz: zkušenosti, lifestyle focus (household/protocol/BDSM/mental/financial)
-  - BDSM intensity (none/soft/medium/hard)
-  - Hranice checklist (50+ položek: impact play, bondage, humiliation, atd.)
-  - Uložení do household.preferences (JSON)
-  - Doporučení startovního levelu
-  - Guided tour + automatický první úkol podle preferencí
 
-- [ ] **#043** - Použití curriculum šablon
-  - Tlačítko "Použít šablonu" při vytváření úkolu/trestu
-  - Filtrování šablon podle aktuálního levelu
-  - Preview šablony před použitím
-  - Možnost upravit šablonu před vytvořením
+- [ ] **#041** - Onboarding flow s BDSM preferencemi (BACKEND + FRONTEND)
+  - Backend: API pro uložení preferences (POST /api/households/{id}/preferences)
+  - Backend: Uložení do household.preferences (JSON column)
+  - Backend: Algoritmus pro doporučení startovního levelu
+  - Frontend: Multi-step wizard (3-5 kroků)
+  - Frontend: Kvíz zkušeností (beginner/intermediate/advanced)
+  - Frontend: Lifestyle focus checkboxes (household, protocol, BDSM, mental, financial)
+  - Frontend: BDSM intensity slider (none/soft/medium/hard)
+  - Frontend: Hranice checklist (50+ položek: impact play, bondage, humiliation)
+  - Frontend: Guided tour po dokončení + automatický první úkol
 
-- [ ] **#044** - Motivační systém pro servanta
-  - Vizualizace bodů za splněné úkoly
-  - Streak counter (dny v řadě bez selhání)
-  - Penalizace zobrazení (ztracené body, důvody)
-  - Žádné odměny — poslušnost JE odměna
-  - Historie bodů a progressu
+- [ ] **#043** - Použití curriculum šablon (FRONTEND - deprecated, nahrazeno #056)
+  - Sloučeno do #056 Task Library browser
+  - Task Library má filtry podle levelu a preferencí
 
-- [ ] **#045** - BDSM Preference System
-  - Rozšíření onboarding kvízu o BDSM sekci
-  - Lifestyle focus (household, protocol, BDSM, mental, financial)
-  - BDSM intensity slider (none → hard)
-  - Hranice hard/soft limits (checklist 50+ položek)
-  - Uložení do households.preferences (JSON column)
-  - Filtrování task library podle preferencí
+- [ ] **#044** - Motivační systém pro servanta (FRONTEND)
+  - Frontend: Vizualizace statistik servanta (tasks completed, success rate)
+  - Frontend: Streak counter (dny v řadě bez selhání) - nový backend endpoint
+  - Frontend: Historie úkolů s výsledky
+  - Poznámka: V Power-Based System servant nemá vlastní body, závisí na domině
 
-- [ ] **#046** - Task Library Management API
-  - GET /api/task-library (s filtry: category, difficulty, bdsm_intensity, match_preferences)
-  - POST /api/task-library/custom (vytvoření vlastního úkolu dominou)
-  - PUT /api/task-library/{id} (editace vlastního úkolu)
-  - DELETE /api/task-library/{id} (smazání vlastního úkolu)
-  - Backend validace: pouze created_by = Auth::id() může editovat
+- [ ] **#045** - BDSM Preference System (BACKEND + FRONTEND)
+  - Backend: Validace a uložení BDSM preferencí
+  - Backend: Filtrování task library podle preferencí (match algorithm)
+  - Frontend: Součást onboarding flow (#041)
+  - Frontend: Editace preferencí v settings
 
-- [ ] **#048** - UI pro výběr úkolů z knihovny
-  - Stránka Task Library s filtry (kategorie, obtížnost, BDSM)
-  - Preview úkolu před přiřazením
-  - Tlačítko "Přiřadit servantovi" (vytvoří task z template)
-  - Možnost upravit před přiřazením
-  - Zobrazení vlastních úkolů dominy odděleně
+- [ ] **#046** - Task Library Management API (BACKEND)
+  - Backend: GET /api/task-library (s filtry: category, difficulty, bdsm_intensity, match_preferences)
+  - Backend: POST /api/task-library/custom (vytvoření vlastního úkolu dominou)
+  - Backend: PUT /api/task-library/{id} (editace vlastního úkolu)
+  - Backend: DELETE /api/task-library/{id} (smazání vlastního úkolu)
+  - Backend: Validace: pouze created_by = Auth::id() může editovat
+  - Frontend: Implementováno v #056
 
-- [ ] **#049** - Fitness Tracking System
-  - API: POST /api/fitness/tracking (denní záznam váhy, měření, kroky, kalorie, foto)
-  - API: GET /api/fitness/tracking (historie s filtrováním)
-  - API: PUT /api/households/{id}/fitness-goals (nastavení cílů)
-  - API: GET /api/fitness/weight-compliance (kontrola dodržení váhy)
-  - Automatická penalizace při překročení tolerance (-15b)
-  - Achievement za dosažení target_weight (+50b)
-  - UI: Dashboard s grafem váhy a pokroku
-  - UI: Formulář pro denní report (váha, měření, kroky, kalorie, upload foto)
+- [ ] **#049** - Fitness Tracking System (BACKEND + FRONTEND)
+  - Backend: API POST /api/fitness/tracking (denní záznam váhy, měření, kroky, kalorie, foto)
+  - Backend: API GET /api/fitness/tracking (historie s filtrováním)
+  - Backend: API PUT /api/households/{id}/fitness-goals (nastavení cílů)
+  - Backend: API GET /api/fitness/weight-compliance (kontrola dodržení váhy)
+  - Backend: Automatická penalizace při překročení tolerance (-15b)
+  - Backend: Achievement za dosažení target_weight (+50b)
+  - Frontend: Dashboard s grafem váhy (Chart.js/D3.js)
+  - Frontend: Formulář pro denní report
+  - Frontend: Upload interface pro progress foto
+  - Frontend: Měření body (chest, waist, hips, arms, legs)
 
-- [ ] **#050** - Feminine Power System (denní checklist dominy)
-  - Databázová tabulka `domina_daily_checklist`
-  - 5 levelů denních checklistů (progressive requirements: 3/5 → 7/9)
-  - API: POST /api/domina/checklist (domina vyplní)
-  - API: POST /api/domina/checklist/verify (servant jako witness)
-  - API: GET /api/domina/checklist (get pro den)
-  - API: GET /api/domina/checklist/history (historie)
-  - Cron job: denní kontrola compliance (23:59)
-  - Penalizace při nesplnění: -20b až -50b domina, -10b až -30b servant (dle levelu)
-  - Body za splnění: +5b až +30b dle levelu
-  - 70 úkolů kategorie Feminine Power (oblečení, make-up, styling)
-  - UI: Domina checklist dashboard
-  - UI: Servant verification interface (může potvrdit za dominu jako svědek)
-  - Validace: servant nemůže přepsat checklist vyplněný dominou
+- [ ] **#050** - Feminine Power System (BACKEND + FRONTEND)
+  - Backend: Databázová tabulka `domina_daily_checklist`
+  - Backend: 5 levelů denních checklistů (progressive requirements: 3/5 → 7/9)
+  - Backend: API POST /api/domina/checklist (domina vyplní)
+  - Backend: API POST /api/domina/checklist/verify (servant witness)
+  - Backend: API GET /api/domina/checklist, GET /api/domina/checklist/history
+  - Backend: Cron job pro denní kontrolu (23:59)
+  - Backend: Penalizace/body podle levelu
+  - Backend: 70 úkolů kategorie Feminine Power (seed data)
+  - Frontend: Domina checklist dashboard (daily checklist form)
+  - Frontend: Servant verification interface
+  - Frontend: Historie compliance s vizualizací
+  - Validace: servant nemůže přepsat domina checklist
 
-- [ ] **#051** - Recurring Tasks (opakující se úkoly)
-  - Databázové sloupce v `tasks`: is_recurring, recurrence_pattern, recurrence_interval, recurrence_day_of_week, recurrence_day_of_month, recurring_task_id, recurrence_end_date, recurrence_active
-  - Foreign key: recurring_task_id → tasks(id) CASCADE
-  - Periodicita: neopakovat, denně, každých X dní (2-30), týdně, měsíčně
-  - Parent task = šablona, child tasks = auto-generované instance
-  - Cron job: generování instancí (00:01 denně)
-  - API: POST /api/tasks (s periodicitu)
-  - API: PUT /api/tasks/{id}/recurring/deactivate|activate
-  - API: PUT /api/tasks/{id}/recurring (úprava periodicitu)
-  - API: DELETE /api/tasks/{id} (smaže parent + pending instances)
-  - UI: Periodicita při vytváření úkolu (radio buttons)
-  - UI: Správa recurring tasks (seznam, vypnout/zapnout/smazat)
-  - UI: Servant dashboard zobrazí 🔁 ikonu pro recurring instance
-  - Validace: interval 2-30, end_date max 1 rok, pouze domina vytváří
+- [ ] **#051** - Recurring Tasks (BACKEND + FRONTEND)
+  - Backend: Databázové sloupce v `tasks` (is_recurring, recurrence_pattern, atd.)
+  - Backend: Cron job pro generování instancí (00:01 denně)
+  - Backend: API POST /api/tasks (s periodicitou)
+  - Backend: API PUT /api/tasks/{id}/recurring (activate/deactivate/edit)
+  - Backend: API DELETE /api/tasks/{id} (smaže parent + pending instances)
+  - Frontend: Periodicita při vytváření úkolu (radio buttons + date picker)
+  - Frontend: Správa recurring tasks (seznam s toggle on/off)
+  - Frontend: Servant dashboard zobrazí 🔁 ikonu
+  - Frontend: Edit recurring pattern (změna periodicitu, end date)
+  - Validace: interval 2-30, end_date max 1 rok
 
 ### Původní gamifikace (nahrazeno Progression System)
 - [x] **#014** - DEPRECATED — nahrazeno #036-#051
@@ -149,34 +195,57 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
 ## 💡 Nízká priorita (Low)
 
 ### Komunikace
-- [ ] **#016** - Chat mezi dominou a servantem
-  - Real-time messaging
-  - Historie konverzací
-  - Možnost přikládat obrázky
+- [ ] **#016** - Chat mezi dominou a servantem (BACKEND + FRONTEND)
+  - Backend: Databázové tabulky pro messages, conversations
+  - Backend: WebSocket/Socket.io pro real-time messaging
+  - Backend: API GET/POST /api/conversations/{id}/messages
+  - Backend: Upload a storage pro obrázky v chatu
+  - Frontend: Chat interface (message list, input, emoji picker)
+  - Frontend: Real-time updates (WebSocket connection)
+  - Frontend: Image upload a preview
+  - Frontend: Conversation list s unread countem
 
-- [ ] **#017** - Komentáře k úkolům
-  - Servant může přidat poznámku k dokončenému úkolu
-  - Domina může komentovat verifikaci
+- [ ] **#017** - Komentáře k úkolům (BACKEND + FRONTEND)
+  - Backend: Tabulka task_comments (task_id, user_id, comment, created_at)
+  - Backend: API GET/POST /api/tasks/{id}/comments
+  - Frontend: Comment thread pod task detailem
+  - Frontend: Formulář pro přidání komentáře
+  - Frontend: Zobrazení komentářů s avatarem a timestampem
 
 ### Reporting
-- [ ] **#018** - Exporty a statistiky
-  - Export úkolů do CSV/PDF
-  - Grafy výkonnosti servantů
-  - Měsíční reporty
+- [ ] **#018** - Exporty a statistiky (BACKEND + FRONTEND)
+  - Backend: API GET /api/households/{id}/export (CSV/PDF format)
+  - Backend: Generování PDF reportů (TCPDF/FPDF)
+  - Backend: Agregace dat pro grafy (task completion rate, punishment trends)
+  - Frontend: Export button s výběrem formátu
+  - Frontend: Grafy výkonnosti (Chart.js) - task completion timeline, success rate
+  - Frontend: Měsíční report preview před exportem
+  - Frontend: Filter pro date range
 
-- [ ] **#019** - Activity log
-  - Kompletní historie akcí v panství
-  - Filtrovatelný log pro auditing
+- [ ] **#019** - Activity log (BACKEND + FRONTEND)
+  - Backend: Již existuje activity_log tabulka, jen API chybí
+  - Backend: API GET /api/households/{id}/activity-log (s paginací, filtry)
+  - Frontend: Activity timeline UI
+  - Frontend: Filtry podle action type (task.create, task.verify, penalty.applied)
+  - Frontend: Filtry podle user (domina/servant)
+  - Frontend: Filtry podle date range
+  - Frontend: Infinite scroll nebo pagination
 
 ### Integrace
-- [ ] **#020** - API pro třetí strany
-  - REST API dokumentace
-  - Webhook notifikace
-  - OAuth2 autentizace
+- [ ] **#020** - API pro třetí strany (BACKEND)
+  - Backend: REST API dokumentace (OpenAPI/Swagger)
+  - Backend: API keys generování a management
+  - Backend: Webhook system (trigger events, delivery queue)
+  - Backend: OAuth2 server implementation
+  - Backend: Rate limiting a throttling
+  - Frontend: Developer portal (API keys management)
 
-- [ ] **#021** - Mobile app
+- [ ] **#021** - Mobile app (FRONTEND - separate codebase)
   - React Native / Flutter
-  - Push notifikace
+  - Push notifikace (FCM/APNS)
+  - Offline mode s sync
+  - Responsive layout pro mobile
+  - Biometric auth (TouchID/FaceID)
 
 ---
 
@@ -201,17 +270,19 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
 
 ## 📊 Statistiky
 
-**Aktivní úkoly:** 36
-**High priority:** 4
-**Medium priority:** 14 (9 Progression System úkolů včetně Fitness, Feminine Power, Recurring)
-**Low priority:** 6
+**Aktivní úkoly:** 43
+**High priority:** 10 (7 kritických frontend tasků pro Progression System + 3 ostatní)
+**Medium priority:** 17 (vše BACKEND + FRONTEND)
+**Low priority:** 6 (vše BACKEND + FRONTEND)
 **Tech debt:** 5
 **Nápady:** 4
-**Deprecated:** 2
+**Deprecated:** 3 (#014, #015, #043 sloučeno do #056)
 **Hotovo (v CHANGELOG.md):** 15
+
+**KRITICKÉ:** Frontend pro Progression System (#053-#059) - backend hotový, UI chybí!
 
 ---
 
-**Další volné číslo:** #053
+**Další volné číslo:** #060
 
 **Poznámka:** Po dokončení úkolu přesuň záznam do `CHANGELOG.md`.
