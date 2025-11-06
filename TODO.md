@@ -12,12 +12,13 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
 
 ### Frontend pro Progression System (KRITICKÉ - backend hotový, UI chybí)
 
-- [ ] **#053** - Frontend: Dashboard pro dominu s progression metrics (BACKEND + FRONTEND)
+- [x] **#053** - Frontend: Dashboard pro dominu s progression metrics (BACKEND + FRONTEND) ✓
   - Zobrazení level info (current level, level name, points, progress bar, Power Index)
   - Seznam odemčených achievementů s ikonami
   - Statistiky (tasks created, verified, punishments issued)
   - Integrace s existujícím API endpoint GET /api/stats/dashboard
   - Responsivní design s BDSM estetikou
+  - HOTOVO: app.js, style.css
 
 - [ ] **#054** - Frontend: Dashboard pro servanta s progression metrics (BACKEND + FRONTEND)
   - Zobrazení domina level (servant vidí level dominy, ne svůj)
@@ -270,16 +271,17 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
 
 ## 📊 Statistiky
 
-**Aktivní úkoly:** 43
-**High priority:** 10 (7 kritických frontend tasků pro Progression System + 3 ostatní)
+**Aktivní úkoly:** 42
+**High priority:** 9 (6 kritických frontend tasků pro Progression System + 3 ostatní)
 **Medium priority:** 17 (vše BACKEND + FRONTEND)
 **Low priority:** 6 (vše BACKEND + FRONTEND)
 **Tech debt:** 5
 **Nápady:** 4
 **Deprecated:** 3 (#014, #015, #043 sloučeno do #056)
-**Hotovo (v CHANGELOG.md):** 15
+**Hotovo (v CHANGELOG.md):** 16
 
-**KRITICKÉ:** Frontend pro Progression System (#053-#059) - backend hotový, UI chybí!
+**KRITICKÉ:** Frontend pro Progression System (#054-#059) - backend hotový, UI chybí!
+✓ #053 Dashboard pro dominu HOTOVO
 
 ---
 

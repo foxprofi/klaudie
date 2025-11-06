@@ -167,6 +167,19 @@ const API = {
             body: { servant_id: servantId, reason, severity },
         });
     },
+
+    // Progression
+    getProgress(householdId) {
+        return this.request(`/households/${householdId}/progress`);
+    },
+
+    getAchievements(householdId) {
+        return this.request(`/households/${householdId}/achievements`);
+    },
+
+    getUnlockedAchievements(householdId) {
+        return this.request(`/households/${householdId}/achievements/unlocked`);
+    },
 };
 
 // UI Management
@@ -225,7 +238,8 @@ const UI = {
         const container = document.getElementById('dashboard-content');
 
         if (State.user.role === 'domina') {
-            container.innerHTML = `
+            // Domina dashboard with progression metrics
+            let html = `
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-value">${data.total_households}</div>
@@ -241,6 +255,104 @@ const UI = {
                     </div>
                 </div>
             `;
+
+            // Progression metrics per household
+            if (data.progress && data.progress.length > 0) {
+                data.progress.forEach(prog => {
+                    const level = prog.level_info;
+                    const achievements = prog.achievements || [];
+                    const stats = prog.statistics || {};
+
+                    html += `
+                        <div class="card progression-card">
+                            <div class="card-header">
+                                <div class="card-title">${prog.household_name}</div>
+                            </div>
+                            <div class="card-body">
+                                <!-- Level Info -->
+                                <div class="level-section">
+                                    <div class="level-header">
+                                        <div class="level-badge level-${level.current_level}">
+                                            <span class="level-number">Level ${level.current_level}</span>
+                                            <span class="level-name">${level.level_name}</span>
+                                        </div>
+                                        <div class="power-index">
+                                            <span class="power-index-label">Power Index</span>
+                                            <span class="power-index-value ${level.power_index >= 70 ? 'high' : level.power_index >= 40 ? 'medium' : 'low'}">
+                                                ${level.power_index.toFixed(1)}%
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="points-info">
+                                        <span class="points-current">${level.total_points} bodů</span>
+                                        <span class="points-next">${level.points_to_next_level} do dalšího levelu</span>
+                                    </div>
+
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: ${level.progress_percentage}%">
+                                            <span class="progress-percentage">${level.progress_percentage.toFixed(1)}%</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Achievements -->
+                                <div class="achievements-section">
+                                    <h4 class="section-title">
+                                        <span class="section-icon">🏆</span>
+                                        Achievementy (${achievements.length})
+                                    </h4>
+                                    ${achievements.length > 0 ? `
+                                        <div class="achievements-grid">
+                                            ${achievements.slice(0, 6).map(ach => `
+                                                <div class="achievement-card unlocked" title="${ach.name}">
+                                                    <span class="achievement-icon">${ach.icon || '⭐'}</span>
+                                                    <span class="achievement-name">${ach.name}</span>
+                                                    <span class="achievement-date">${new Date(ach.unlocked_at).toLocaleDateString('cs-CZ')}</span>
+                                                </div>
+                                            `).join('')}
+                                        </div>
+                                        ${achievements.length > 6 ? `
+                                            <div class="achievements-more">
+                                                +${achievements.length - 6} dalších achievementů
+                                            </div>
+                                        ` : ''}
+                                    ` : `
+                                        <p class="empty-state">Zatím žádné odemčené achievementy</p>
+                                    `}
+                                </div>
+
+                                <!-- Statistics -->
+                                <div class="statistics-section">
+                                    <h4 class="section-title">
+                                        <span class="section-icon">📊</span>
+                                        Statistiky
+                                    </h4>
+                                    <div class="stats-grid">
+                                        <div class="stat-item">
+                                            <span class="stat-icon">◆</span>
+                                            <span class="stat-value">${stats.tasks_created || 0}</span>
+                                            <span class="stat-label">Úkolů vytvořeno</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <span class="stat-icon">✓</span>
+                                            <span class="stat-value">${stats.tasks_verified || 0}</span>
+                                            <span class="stat-label">Úkolů verifikováno</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <span class="stat-icon">⚔️</span>
+                                            <span class="stat-value">${stats.punishments_issued || 0}</span>
+                                            <span class="stat-label">Trestů uděleno</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            container.innerHTML = html;
         } else {
             // Servant dashboard
             let html = '';

@@ -101,6 +101,18 @@ Historie implementovaných funkcionalit a změn v projektu.
   - Všechny penalizace logují do activity_log s detailními metadaty
   - Penalizace odečítá body domině (Power-Based System)
 
+- **#053** - Frontend: Dashboard pro dominu s progression metrics
+  - Kompletní UI pro zobrazení progression systému v dashboard
+  - Level badge s barevným rozlišením (level 1-5: šedá/modrá/fialová/červená/zlatá)
+  - Power Index indikátor s barevným kódováním (high/medium/low)
+  - Animovaný progress bar s shimmer efektem
+  - Achievement cards grid (zobrazení prvních 6, "+ X dalších")
+  - Statistics cards (tasks created, verified, punishments issued) s hover efekty
+  - Responsivní design s BDSM estetikou (dark theme, červené akcenty)
+  - API integrace: používá existující GET /api/stats/dashboard endpoint
+  - Soubory: public/js/app.js, public/css/style.css
+  - Přidány API metody: getProgress(), getAchievements(), getUnlockedAchievements()
+
 ### Documentation
 - Přidán `PROGRESSION_SYSTEM.md` v3 - Power-Based System
   - Pouze domina má body a level
