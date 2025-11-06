@@ -897,11 +897,45 @@ body {
     z-index: 1;
 }
 
+.power-gauge-section,
 .achievements-section,
 .statistics-section {
     margin-top: 2rem;
     padding-top: 2rem;
     border-top: 1px solid var(--border);
+}
+
+/* Power Index Gauge (Servant View) */
+.power-gauge-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem;
+}
+
+.power-gauge {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
+}
+
+.gauge-labels {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 260px;
+    margin-top: -0.5rem;
+    padding: 0 1rem;
+}
+
+.gauge-label-left,
+.gauge-label-right {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .section-title {

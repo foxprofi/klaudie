@@ -362,39 +362,63 @@ const UI = {
                 const tasks = item.tasks || {};
                 const punishments = item.punishments || {};
 
+                // Power Index gauge: rotate needle from -90° (0%) to +90° (100%)
+                const powerIndex = dominaLevel.power_index;
+                const needleRotation = -90 + (powerIndex * 1.8); // 0% = -90°, 100% = +90°
+                const gaugeColor = powerIndex >= 70 ? '#00ff88' : powerIndex >= 40 ? '#ffaa00' : '#ff4444';
+
                 html += `
                     <div class="card progression-card">
                         <div class="card-header">
                             <div class="card-title">${household.name}</div>
                         </div>
                         <div class="card-body">
-                            <!-- Domina's Level Info (servant view) -->
-                            <div class="level-section">
+                            <!-- Power Index Gauge (servant view) -->
+                            <div class="power-gauge-section">
                                 <h4 class="section-title">
                                     <span class="section-icon">⚡</span>
-                                    Level Dominy
+                                    Power Index
                                 </h4>
-                                <div class="level-header">
-                                    <div class="level-badge level-${dominaLevel.current_level}">
-                                        <span class="level-number">Level ${dominaLevel.current_level}</span>
-                                        <span class="level-name">${dominaLevel.level_name}</span>
-                                    </div>
-                                    <div class="power-index">
-                                        <span class="power-index-label">Power Index</span>
-                                        <span class="power-index-value ${dominaLevel.power_index >= 70 ? 'high' : dominaLevel.power_index >= 40 ? 'medium' : 'low'}">
-                                            ${dominaLevel.power_index.toFixed(1)}%
-                                        </span>
-                                    </div>
-                                </div>
+                                <div class="power-gauge-container">
+                                    <svg class="power-gauge" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+                                        <!-- Background arc -->
+                                        <path d="M 20 100 A 80 80 0 0 1 180 100"
+                                              fill="none"
+                                              stroke="#1a1a1a"
+                                              stroke-width="20"
+                                              stroke-linecap="round"/>
 
-                                <div class="points-info">
-                                    <span class="points-current">${dominaLevel.total_points} bodů</span>
-                                    <span class="points-next">${dominaLevel.points_to_next_level} do dalšího levelu</span>
-                                </div>
+                                        <!-- Colored arc (progress) -->
+                                        <path d="M 20 100 A 80 80 0 0 1 180 100"
+                                              fill="none"
+                                              stroke="${gaugeColor}"
+                                              stroke-width="20"
+                                              stroke-linecap="round"
+                                              stroke-dasharray="${powerIndex * 2.51} 251"
+                                              opacity="0.6"/>
 
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: ${dominaLevel.progress_percentage}%">
-                                        <span class="progress-percentage">${dominaLevel.progress_percentage.toFixed(1)}%</span>
+                                        <!-- Center pivot -->
+                                        <circle cx="100" cy="100" r="8" fill="#2a2a2a" stroke="${gaugeColor}" stroke-width="2"/>
+
+                                        <!-- Needle -->
+                                        <line x1="100" y1="100" x2="100" y2="35"
+                                              stroke="${gaugeColor}"
+                                              stroke-width="3"
+                                              stroke-linecap="round"
+                                              transform="rotate(${needleRotation} 100 100)"
+                                              style="filter: drop-shadow(0 0 4px ${gaugeColor})"/>
+
+                                        <!-- Value text -->
+                                        <text x="100" y="110"
+                                              text-anchor="middle"
+                                              fill="${gaugeColor}"
+                                              font-size="24"
+                                              font-weight="bold"
+                                              style="text-shadow: 0 0 8px ${gaugeColor}">${powerIndex.toFixed(1)}%</text>
+                                    </svg>
+                                    <div class="gauge-labels">
+                                        <span class="gauge-label-left">0%</span>
+                                        <span class="gauge-label-right">100%</span>
                                     </div>
                                 </div>
                             </div>
