@@ -10,6 +10,7 @@ use Klaudie\Models\Household;
 use Klaudie\Services\Auth;
 use Klaudie\Services\ActivityLogger;
 use Klaudie\Services\PointsService;
+use Klaudie\Services\DominaProgressService;
 use Klaudie\Response;
 
 /**
@@ -68,22 +69,22 @@ class PunishmentController
             'issued_by' => Auth::id(),
         ]);
 
-        // Deduct points if penalty > 0
-        if ($penaltyPoints < 0) {
-            PointsService::deductPoints(
-                $data['servant_id'],
-                $householdId,
-                abs($penaltyPoints),
-                "Punishment: {$data['reason']}",
-                $punishmentId
-            );
-        }
+        // Note: In Power-Based System, servant has no points
+        // Punishment is recorded for statistics only
 
         ActivityLogger::log(Auth::id(), $householdId, 'punishment.issue', [
             'punishment_id' => $punishmentId,
             'servant_id' => $data['servant_id'],
             'severity' => $severity,
         ]);
+
+        // Award points to domina for issuing punishment (Power-Based System)
+        DominaProgressService::addPoints(
+            Auth::id(),
+            $householdId,
+            15,
+            "Issued punishment: {$data['reason']} (severity: {$severity})"
+        );
 
         return Response::success(['id' => $punishmentId], 'Punishment issued', 201);
     }

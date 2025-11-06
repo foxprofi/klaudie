@@ -11,6 +11,7 @@ use Klaudie\Models\Household;
 use Klaudie\Services\Auth;
 use Klaudie\Services\ActivityLogger;
 use Klaudie\Services\PointsService;
+use Klaudie\Services\DominaProgressService;
 use Klaudie\Response;
 
 /**
@@ -87,6 +88,14 @@ class TaskController
             'task_id' => $taskId,
             'title' => $data['title'],
         ]);
+
+        // Award points to domina for creating task (Power-Based System)
+        DominaProgressService::addPoints(
+            Auth::id(),
+            $householdId,
+            5,
+            "Created task: {$data['title']}"
+        );
 
         return Response::success(['id' => $taskId], 'Task created', 201);
     }
@@ -205,21 +214,37 @@ class TaskController
         if ($approved) {
             $assignmentModel->verify($assignmentId, Auth::id(), $data['notes'] ?? null);
 
-            // Award points
+            // Get task details
             $taskModel = new Task();
             $task = $taskModel->find($assignment['task_id']);
 
-            PointsService::awardPoints(
-                $assignment['servant_id'],
+            // Award points to domina (Power-Based System)
+            // Base: 10 points for verification
+            // Bonus: points based on task difficulty
+            $difficultyPoints = [
+                'trivial' => 5,
+                'easy' => 10,
+                'medium' => 15,
+                'hard' => 20,
+                'extreme' => 25,
+            ];
+
+            $taskDifficulty = $task['difficulty'] ?? 'medium';
+            $bonusPoints = $difficultyPoints[$taskDifficulty] ?? 15;
+            $totalPoints = 10 + $bonusPoints;
+
+            DominaProgressService::addPoints(
+                Auth::id(),
                 $assignment['household_id'],
-                $task['points_reward'],
-                "Task completed: {$task['title']}",
-                $assignmentId
+                $totalPoints,
+                "Verified task: {$task['title']} (difficulty: {$taskDifficulty})"
             );
 
             ActivityLogger::log(Auth::id(), $assignment['household_id'], 'task.verify_approved', [
                 'assignment_id' => $assignmentId,
-                'points_awarded' => $task['points_reward'],
+                'points_awarded_domina' => $totalPoints,
+                'verification_points' => 10,
+                'difficulty_bonus' => $bonusPoints,
             ]);
 
             return Response::success(null, 'Task verified and points awarded');

@@ -10,6 +10,7 @@ use Klaudie\Models\TaskAssignment;
 use Klaudie\Models\Punishment;
 use Klaudie\Services\Auth;
 use Klaudie\Services\PointsService;
+use Klaudie\Services\DominaProgressService;
 use Klaudie\Response;
 
 /**
@@ -45,6 +46,7 @@ class StatsController
             'total_tasks' => 0,
             'pending_verifications' => 0,
             'recent_activities' => [],
+            'progress' => [],
         ];
 
         foreach ($households as $household) {
@@ -54,6 +56,14 @@ class StatsController
             $assignmentModel = new TaskAssignment();
             $pendingVerifications = $assignmentModel->getByHousehold($household['id'], 'completed');
             $stats['pending_verifications'] += count($pendingVerifications);
+
+            // Get domina progress for this household (Power-Based System)
+            $levelInfo = DominaProgressService::getLevelInfo(Auth::id(), $household['id']);
+            $stats['progress'][] = [
+                'household_id' => $household['id'],
+                'household_name' => $household['name'],
+                'level_info' => $levelInfo,
+            ];
         }
 
         return Response::success($stats);
@@ -73,18 +83,20 @@ class StatsController
 
         foreach ($households as $household) {
             $householdId = $household['id'];
+            $dominaId = (int) $household['domina_id'];
 
             $assignmentModel = new TaskAssignment();
             $taskStats = $assignmentModel->getServantStats(Auth::id(), $householdId);
 
-            $levelInfo = PointsService::getLevelInfo(Auth::id(), $householdId);
+            // In Power-Based System, servant sees domina's level (not their own)
+            $dominaLevelInfo = DominaProgressService::getLevelInfo($dominaId, $householdId);
 
             $punishmentModel = new Punishment();
             $punishmentStats = $punishmentModel->getServantStats(Auth::id(), $householdId);
 
             $stats['households'][] = [
                 'household' => $household,
-                'level' => $levelInfo,
+                'domina_level' => $dominaLevelInfo,
                 'tasks' => $taskStats,
                 'punishments' => $punishmentStats,
             ];
@@ -105,7 +117,8 @@ class StatsController
             return Response::forbidden();
         }
 
-        $levelInfo = PointsService::getLevelInfo($servantId, $householdId);
+        // In Power-Based System, servant has no points/level
+        // Show only task and punishment statistics
 
         $assignmentModel = new TaskAssignment();
         $taskStats = $assignmentModel->getServantStats($servantId, $householdId);
@@ -113,13 +126,13 @@ class StatsController
         $punishmentModel = new Punishment();
         $punishmentStats = $punishmentModel->getServantStats($servantId, $householdId);
 
-        $pointsHistory = PointsService::getHistory($servantId, $householdId, 20);
+        // Get domina's level info as context
+        $dominaLevelInfo = DominaProgressService::getLevelInfo(Auth::id(), $householdId);
 
         return Response::success([
-            'level' => $levelInfo,
+            'domina_level' => $dominaLevelInfo,
             'tasks' => $taskStats,
             'punishments' => $punishmentStats,
-            'points_history' => $pointsHistory,
         ]);
     }
 }

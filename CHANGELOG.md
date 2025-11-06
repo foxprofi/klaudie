@@ -31,6 +31,17 @@ Historie implementovaných funkcionalit a změn v projektu.
   - Activity logging pro všechny změny bodů a levelů
   - Otestováno na databázi (add/deduct points, level-up/down, persistence)
 
+- **#038** - Bodový systém s pozitivní motivací - Integrace do akcí
+  - Domina získává body za akce: vytvoření úkolu (+5b), verifikace úkolu (+10b), udělení trestu (+15b)
+  - Bonus body za verifikaci podle obtížnosti: trivial (+5b), easy (+10b), medium (+15b), hard (+20b), extreme (+25b)
+  - Celkově za verifikaci: 10b (base) + 5-25b (difficulty bonus) = 15-35b
+  - Integrace do `TaskController::create()` a `TaskController::verify()`
+  - Integrace do `PunishmentController::create()`
+  - Odstranění starého `PointsService` usage pro servanta (servant už nemá body v Power-Based System)
+  - Aktualizace `StatsController` - domina dashboard zobrazuje její level, servant dashboard zobrazuje domina level
+  - Automatický přepočet level up/down při změně bodů
+  - Otestováno: 550b → 555b (+5b task) → 580b (+25b verify) → 595b (+15b punishment)
+
 - **#040** - Task Library - 720 úkolů
   - Household: 120 úkolů (cleaning, cooking, laundry, organization, maintenance, shopping)
   - Protocol: 60 úkolů (rituals, positions, addressing, communication, service, rules)

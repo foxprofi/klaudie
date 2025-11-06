@@ -57,12 +57,6 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
   - Theme (dark/light mode)
 
 ### Progression System (Vzdělávací systém pro páry)
-- [ ] **#038** - Bodový systém s negativní motivací
-  - Pozitivní body za akce (vytvoření: 5b, verifikace: 10b, trest: 15b)
-  - Pozitivní body za splněné úkoly (5-25b dle obtížnosti)
-  - NEGATIVNÍ PENALIZACE: žádný úkol 24h (-10b), odmítnutí (-25b), deadline miss (-15b), porušení pravidla (-20b), nerespekt (-50b)
-  - Automatický přepočet bodů → level up/down
-
 - [ ] **#039** - Achievement systém
   - Definice achievementů (První úkol, První týden, 10 úkolů, 100 úkolů)
   - Automatická detekce a odemykání achievementů
@@ -228,14 +222,14 @@ Aktivní úkoly pro vývoj. Hotové úkoly jsou přesunuty do `CHANGELOG.md`.
 
 ## 📊 Statistiky
 
-**Aktivní úkoly:** 40
+**Aktivní úkoly:** 39
 **High priority:** 4
-**Medium priority:** 18 (13 Progression System úkolů včetně Fitness, Feminine Power, Recurring a Punishments)
+**Medium priority:** 17 (12 Progression System úkolů včetně Fitness, Feminine Power, Recurring a Punishments)
 **Low priority:** 6
 **Tech debt:** 5
 **Nápady:** 4
 **Deprecated:** 2
-**Hotovo (v CHANGELOG.md):** 11
+**Hotovo (v CHANGELOG.md):** 12
 
 ---
 
