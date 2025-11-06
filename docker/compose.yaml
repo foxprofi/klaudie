@@ -10,11 +10,19 @@ services:
       - type: bind
         source: ../
         target: /var/www/project
+      - type: bind
+        source: ./crontab
+        target: /etc/cron.d/app-cron
     extra_hosts:
       host.docker.internal: host-gateway
     container_name: klaudie
     networks:
       local:
+    command: >
+      sh -c "apt-get update && apt-get install -y cron &&
+             chmod 0644 /etc/cron.d/app-cron &&
+             crontab /etc/cron.d/app-cron &&
+             cron -f"
 
 networks:
   local:

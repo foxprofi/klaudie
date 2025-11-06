@@ -1,6 +1,6 @@
 FROM php:8.4-apache
 
-# Update package manager and install required dependencies
+# Update package manager and install required dependencies including cron
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y \
     wget \
     imagemagick \
     libmagickwand-dev \
+    cron \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd \
     && docker-php-ext-install mysqli pdo pdo_mysql zip \
