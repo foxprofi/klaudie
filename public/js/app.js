@@ -365,7 +365,7 @@ const UI = {
                 // Power Index gauge: rotate needle from -90° (0%) to +90° (100%)
                 const powerIndex = dominaLevel.power_index;
                 const needleRotation = -90 + (powerIndex * 1.8); // 0% = -90°, 100% = +90°
-                const gaugeColor = powerIndex >= 70 ? '#00ff88' : powerIndex >= 40 ? '#ffaa00' : '#ff4444';
+                const gaugeColor = powerIndex >= 90 ? '#00ff88' : powerIndex >= 40 ? '#ffaa00' : '#ff4444';
 
                 html += `
                     <div class="card progression-card">
@@ -397,9 +397,6 @@ const UI = {
                                               stroke-dasharray="${powerIndex * 2.51} 251"
                                               opacity="0.6"/>
 
-                                        <!-- Center pivot -->
-                                        <circle cx="100" cy="100" r="8" fill="#2a2a2a" stroke="${gaugeColor}" stroke-width="2"/>
-
                                         <!-- Needle -->
                                         <line x1="100" y1="100" x2="100" y2="35"
                                               stroke="${gaugeColor}"
@@ -409,12 +406,15 @@ const UI = {
                                               style="filter: drop-shadow(0 0 4px ${gaugeColor})"/>
 
                                         <!-- Value text -->
-                                        <text x="100" y="110"
+                                        <text x="100" y="85"
                                               text-anchor="middle"
                                               fill="${gaugeColor}"
-                                              font-size="24"
+                                              font-size="28"
                                               font-weight="bold"
-                                              style="text-shadow: 0 0 8px ${gaugeColor}">${powerIndex.toFixed(1)}%</text>
+                                              style="text-shadow: 0 0 10px ${gaugeColor}">${powerIndex.toFixed(1)}%</text>
+
+                                        <!-- Center pivot (after text for z-index) -->
+                                        <circle cx="100" cy="100" r="6" fill="#2a2a2a" stroke="${gaugeColor}" stroke-width="2"/>
                                     </svg>
                                     <div class="gauge-labels">
                                         <span class="gauge-label-left">0%</span>
